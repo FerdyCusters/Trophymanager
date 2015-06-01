@@ -66,6 +66,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Pages\Homepage.aspx" />
     <Content Include="Pages\Inlogscherm.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -79,6 +80,13 @@
     <Compile Include="Klassen\Training.cs" />
     <Compile Include="Klassen\Veldspeler.cs" />
     <Compile Include="Klassen\Wedstrijd.cs" />
+    <Compile Include="Pages\Homepage.aspx.cs">
+      <DependentUpon>Homepage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Homepage.aspx.designer.cs">
+      <DependentUpon>Homepage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Inlogscherm.aspx.cs">
       <DependentUpon>Inlogscherm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
