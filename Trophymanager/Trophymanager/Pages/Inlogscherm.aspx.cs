@@ -9,16 +9,23 @@ namespace Trophymanager.Pages
 {
     public partial class Inlogscherm : System.Web.UI.Page
     {
+        #region Fields
         Klassen.Club club;
         Klassen.Competitie eredivisie = new Klassen.Competitie("Eredivisie");
         Klassen.Competitie eersteDivisie = new Klassen.Competitie("Eerste Divisie");
         Klassen.Competitie tweedeDivisie = new Klassen.Competitie("Tweede Divisie");
         List<Klassen.Club> accounts = new List<Klassen.Club>();
+        #endregion
+
+        #region pageload
         protected void Page_Load(object sender, EventArgs e)
         {
             club = new Klassen.Club();
+            Klassen.DBConnect.InitializeConnection();
         }
+        #endregion
 
+        #region Event Handlers
         protected void btnInloggen_Click(Object sender, EventArgs e)
         {
             if (club.CheckLogin(tbInlognaam.Text, tbWachtwoord.Text) == true)
@@ -33,10 +40,7 @@ namespace Trophymanager.Pages
 
         protected void btnRegistreren_Click(Object sender, EventArgs e)
         {
-            string username = tbUsername.Text;
-            string clubnaam = tbClubnaam.Text;
-
-            if (club.CheckRegistreer(tbUsername.Text, tbClubnaam.Text) == true)
+            if (club.CheckRegistreer(tbUsername.Text, tbClubnaam.Text, this) == true)
             {
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Informatie goed ingevuld. Uw team is aangemaakt!');", true);
                 Klassen.Club nieuweClub = new Klassen.Club(tbUsername.Text, tbPassword.Text, tbClubnaam.Text, tbBijnaam.Text, tbClubKleuren.Text);
@@ -47,5 +51,6 @@ namespace Trophymanager.Pages
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Verkeerde informatie ingevuld!');", true);
             }
         }
+        #endregion
     }
 }
