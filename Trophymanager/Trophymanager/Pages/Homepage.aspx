@@ -10,9 +10,9 @@
     <body>
         <form id="Inlogscherm" runat="server">
             <div>
-                <asp:TextBox ID="tbInlognaam" runat="server" placeholder="Gebruikersnaam" />
-                <asp:TextBox ID="tbWachtwoord" runat="server" placeholder="Wachtwoord" type="password" />        
-                <asp:Button id="btnInloggen" Text="Inloggen" runat="server" />
+                <asp:Button ID="btnTeampagina" Text="Team"runat="server" OnClick="btnTeam_Click" />
+                <asp:Button ID="btnCompetitiepagina" Text="Competitie" runat="server" OnClick="btnCompetitie_Click" />        
+                <asp:Button ID="btnWedstrijdpagina" Text="Wedstrijd" runat="server" OnClick="btnWedstrijd_Click" />
             </div>
         </form>
     </body>

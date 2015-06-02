@@ -13,5 +13,20 @@ namespace Trophymanager.Pages
         {
 
         }
+
+        protected void btnTeam_CLick(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnCompetitie_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnWedstrijd_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

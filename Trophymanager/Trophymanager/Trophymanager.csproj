@@ -66,8 +66,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Pages\Competitiepagina.aspx" />
     <Content Include="Pages\Homepage.aspx" />
     <Content Include="Pages\Inlogscherm.aspx" />
+    <Content Include="Pages\Teampagina.aspx" />
+    <Content Include="Pages\Wedstrijdpagina.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +83,13 @@
     <Compile Include="Klassen\Training.cs" />
     <Compile Include="Klassen\Veldspeler.cs" />
     <Compile Include="Klassen\Wedstrijd.cs" />
+    <Compile Include="Pages\Competitiepagina.aspx.cs">
+      <DependentUpon>Competitiepagina.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Competitiepagina.aspx.designer.cs">
+      <DependentUpon>Competitiepagina.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Homepage.aspx.cs">
       <DependentUpon>Homepage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -93,6 +103,20 @@
     </Compile>
     <Compile Include="Pages\Inlogscherm.aspx.designer.cs">
       <DependentUpon>Inlogscherm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Teampagina.aspx.cs">
+      <DependentUpon>Teampagina.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Teampagina.aspx.designer.cs">
+      <DependentUpon>Teampagina.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Wedstrijdpagina.aspx.cs">
+      <DependentUpon>Wedstrijdpagina.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Wedstrijdpagina.aspx.designer.cs">
+      <DependentUpon>Wedstrijdpagina.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
