@@ -35,5 +35,14 @@ namespace Trophymanager.Klassen
         }
         #endregion
 
+        #region methods
+
+        public override string ToString()
+        {
+            return Spelercode + " Naam: " + Naam + "  Leeftijd: " + Leeftijd + " Nummer: " + Nummer;
+        }
+
+        #endregion
+
     }
 }

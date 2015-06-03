@@ -9,6 +9,7 @@
 <body>
     <form id="form1" runat="server">
     <div>
+    <asp:ListBox ID="lbStand" runat="server" Width="600" Height="800" />
     <asp:Button ID="btnGaTerug" Text="Ga terug" runat="server" OnClick="btnGaTerug_Click" />
     </div>
     </form>

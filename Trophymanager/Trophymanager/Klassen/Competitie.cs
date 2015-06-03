@@ -12,6 +12,8 @@ namespace Trophymanager.Klassen
         public string Naam { get; set; }
         public List<Club> Clubs { get; set; }
         public List<Wedstrijd> Wedstrijden { get; set; }
+        public int AantalClubs { get; set; }
+
         #endregion
 
         #region Constructor
@@ -26,7 +28,8 @@ namespace Trophymanager.Klassen
         #region Methods
         public void VoegClubToe(Club club)
         {
-            //TODO
+            Clubs.Add(club);
+            DBConnect.AddCT(club, this);
         }
 
         public void VoegWedstrijdToe(Wedstrijd wedstrijd)

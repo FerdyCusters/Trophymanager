@@ -10,11 +10,11 @@
     <form id="form1" runat="server">
     <div>
     SELECTIE
-    <asp:ListBox ID="lbSelectie" runat="server" />
+    <asp:ListBox ID="lbSelectie" runat="server" Width="400" Height="500"/>
     <asp:Button ID="btnRechts" Text=">>" runat="server" OnClick="btnRechts_Click" />
     <asp:Button ID="btnLinks" Text="<<" runat="server" OnClick="btnLinks_Click" />
     OPSTELLING
-    <asp:ListBox ID="lbOpstelling" runat="server" />
+    <asp:ListBox ID="lbOpstelling" runat="server" AutoPostBack="true" Width="400" Height="500"/>
     <asp:Button ID="btnSlaOp" Text="Opslaan" runat="server" OnClick="btnSlaOp_Click" />
     <asp:Button ID="btnGaTerug" Text="Ga terug" runat="server" OnClick="btnGaTerug_Click" />
     </div>

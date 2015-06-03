@@ -11,6 +11,7 @@ namespace Trophymanager.Pages
     {
         #region Fields
         Klassen.Club club;
+        public static Klassen.Club Gebruiker;
         #endregion
 
         #region pageload
@@ -22,10 +23,16 @@ namespace Trophymanager.Pages
         #endregion
 
         #region Event Handlers
+
+        /// <summary>
+        /// Gebruiker logt in.
+        /// </summary>
         protected void btnInloggen_Click(Object sender, EventArgs e)
         {
             if (club.CheckLogin(tbInlognaam.Text, tbWachtwoord.Text) == true)
             {
+                Gebruiker = Klassen.DBConnect.GetClub(tbInlognaam.Text);
+                Gebruiker.Clubcode = Klassen.DBConnect.GetClubCode(Gebruiker);
                 Server.Transfer("Homepage.aspx", true);
             }
             else
@@ -34,6 +41,9 @@ namespace Trophymanager.Pages
             }
         }
 
+        /// <summary>
+        /// Gebruiker registreert.
+        /// </summary>
         protected void btnRegistreren_Click(Object sender, EventArgs e)
         {
             if (club.CheckRegistreer(tbUsername.Text, tbClubnaam.Text, this) == true)

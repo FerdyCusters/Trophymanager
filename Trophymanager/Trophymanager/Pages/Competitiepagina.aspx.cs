@@ -10,12 +10,22 @@ namespace Trophymanager.Pages
     public partial class Competitiepagina : System.Web.UI.Page
     {
         #region Fields
+        List<Klassen.Club> clubs = new List<Klassen.Club>();
         #endregion
 
         #region Pageload
+        /// <summary>
+        /// Als de pagina wordt geladen worden de benodigde gegevens opgehaald en weergegeven op de pagina.
+        /// </summary>
         protected void Page_Load(object sender, EventArgs e)
         {
+            clubs = Klassen.DBConnect.GetCTs();
+            clubs.Sort();
 
+            foreach(Klassen.Club c in clubs.ToArray())
+            {
+                lbStand.Items.Add(c.ToString());
+            }
         }
         #endregion
 

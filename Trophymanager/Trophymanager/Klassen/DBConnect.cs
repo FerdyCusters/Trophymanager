@@ -131,7 +131,7 @@ namespace Trophymanager.Klassen
                 cmd.CommandText = "SELECT Username, Wachtwoord, Clubnaam, Bijnaam, Clubkleuren FROM Club WHERE Username = '" + username + "'";
                 dr = cmd.ExecuteReader();
 
-                if (dr.HasRows)
+                if (dr.Read())
                 {
                     return new Club(dr[0].ToString(), dr[1].ToString(), dr[2].ToString(), dr[3].ToString(), dr[4].ToString());
                 }
@@ -314,7 +314,7 @@ namespace Trophymanager.Klassen
                 List<Veldspeler> rtrn = null;
 
                 conn.Open();
-                cmd.CommandText = "SELECT S.Spelercode, S.Clubcode, S.Naam, S.Leeftijd, S.Nummer, S.InOpstelling, S.Passen, S.Snelheid, S.Kracht, S.Soort, V.Positiespel, V.Afwerken, V.Koppen, V.Tackelen, V.Dekken FROM Speler S, Veldspeler V WHERE Clubcode = '" + c.Clubcode + "'";
+                cmd.CommandText = "SELECT S.Spelercode, S.Clubcode, S.Naam, S.Leeftijd, S.Nummer, S.InOpstelling, S.Passen, S.Snelheid, S.Kracht, S.Soort, V.Positiespel, V.Afwerken, V.Koppen, V.Tackelen, V.Dekken FROM Speler S, Veldspeler V WHERE S.Clubcode = '" + c.Clubcode + "' AND S.Soort = 'Veldspeler' AND S.Spelercode = V.Spelercode";
                 dr = cmd.ExecuteReader();
 
                 if (dr.HasRows)
@@ -368,7 +368,7 @@ namespace Trophymanager.Klassen
                 List<Keeper> rtrn = null;
 
                 conn.Open();
-                cmd.CommandText = "SELECT S.Spelercode, S.Clubcode, S.Naam, S.Leeftijd, S.Nummer, S.InOpstelling, S.Passen, S.Snelheid, S.Kracht, S.Soort, K.Reflexen, K.Handelen, K.Uitkomen FROM Speler S, Keeper K WHERE Clubcode = '" + c.Clubcode + "'";
+                cmd.CommandText = "SELECT S.Spelercode, S.Clubcode, S.Naam, S.Leeftijd, S.Nummer, S.InOpstelling, S.Passen, S.Snelheid, S.Kracht, S.Soort, K.Reflexen, K.Handelen, K.Uitkomen FROM Speler S, Keeper K WHERE S.Clubcode = '" + c.Clubcode + "' AND S.Soort = 'Keeper' AND S.Spelercode = K.Spelercode";
                 dr = cmd.ExecuteReader();
 
                 if (dr.HasRows)
@@ -376,7 +376,7 @@ namespace Trophymanager.Klassen
                     rtrn = new List<Keeper>();
                     while (dr.Read())
                     {
-                        rtrn.Add(new Keeper(dr[2].ToString(), Convert.ToInt32(dr[4]), dr[5].ToString(), Convert.ToInt32(dr[3]), Convert.ToInt32(dr[6]), Convert.ToInt32(dr[7]), Convert.ToInt32(dr[8]), dr[9].ToString(), c, Convert.ToInt32(dr[9]), Convert.ToInt32(dr[10]), Convert.ToInt32(dr[11])));
+                        rtrn.Add(new Keeper(Convert.ToString(dr[2]), Convert.ToInt32(dr[4]), Convert.ToString(dr[5]), Convert.ToInt32(dr[3]), Convert.ToInt32(dr[6]), Convert.ToInt32(dr[7]), Convert.ToInt32(dr[8]), Convert.ToString(dr[9]), c, Convert.ToInt32(dr[10]), Convert.ToInt32(dr[11]), Convert.ToInt32(dr[12])));
                     }
                 }
 
@@ -391,8 +391,61 @@ namespace Trophymanager.Klassen
                 dr.Close();
                 conn.Close();
             }
+        }
 
         #endregion
+
+        #region CT
+
+        public static bool AddCT(Club c, Competitie c2)
+        {
+            try
+            {
+                conn.Open();
+                cmd.CommandText = "INSERT INTO Club_Toernooi (Clubcode, Toernooicode, Wedstrijden, Gewonnen, Verloren, Gelijk, BehaaldePunten) VALUES ('" + c.Clubcode + "', '" + c2.Toernooicode + "', '" + 0 + "', '" + 0 + "', '" + 0 + "', '" + 0 + "', '" + 0 + "')";
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
+
+        public static List<Club> GetCTs()
+        {
+            try
+            {
+                List<Club> rtrn = null;
+                conn.Open();
+                cmd.CommandText = "SELECT C.Username, C.Wachtwoord, C.Clubnaam, C.Bijnaam, C.Clubkleuren, CT.Wedstrijden, CT.Gewonnen, CT.Gelijk, CT.Verloren, CT.BehaaldePunten FROM Club C, Club_Toernooi CT WHERE C.Clubcode = CT.Clubcode AND Toernooicode = 1";
+                dr = cmd.ExecuteReader();
+
+                if (dr.HasRows)
+                {
+                    rtrn = new List<Club>();
+                    while (dr.Read())
+                    {
+                        rtrn.Add(new Club(dr[0].ToString(), dr[1].ToString(), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(), Convert.ToInt32(dr[5]), Convert.ToInt32(dr[6]), Convert.ToInt32(dr[7]), Convert.ToInt32(dr[8]), Convert.ToInt32(dr[9])));
+                    }
+                }
+                return rtrn;
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                dr.Close();
+                conn.Close();
+            }
+        }
+
+        #endregion
     }
 }
