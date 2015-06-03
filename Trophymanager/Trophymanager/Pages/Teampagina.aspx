@@ -9,7 +9,14 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    
+    SELECTIE
+    <asp:ListBox ID="lbSelectie" runat="server" />
+    <asp:Button ID="btnRechts" Text=">>" runat="server" OnClick="btnRechts_Click" />
+    <asp:Button ID="btnLinks" Text="<<" runat="server" OnClick="btnLinks_Click" />
+    OPSTELLING
+    <asp:ListBox ID="lbOpstelling" runat="server" />
+    <asp:Button ID="btnSlaOp" Text="Opslaan" runat="server" OnClick="btnSlaOp_Click" />
+    <asp:Button ID="btnGaTerug" Text="Ga terug" runat="server" OnClick="btnGaTerug_Click" />
     </div>
     </form>
 </body>

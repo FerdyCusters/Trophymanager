@@ -22,6 +22,15 @@ namespace Trophymanager.Pages {
         protected global::System.Web.UI.HtmlControls.HtmlForm Inlogscherm;
         
         /// <summary>
+        /// btnTeampagina control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnTeampagina;
+        
+        /// <summary>
         /// btnCompetitiepagina control.
         /// </summary>
         /// <remarks>
@@ -38,5 +47,14 @@ namespace Trophymanager.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnWedstrijdpagina;
+        
+        /// <summary>
+        /// btnLogUit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnLogUit;
     }
 }

@@ -7,13 +7,17 @@ namespace Trophymanager.Klassen
 {
     public class Wedstrijd
     {
+
+        #region Fields
         public int Wedstrijdcode { get; set; }
         public Club ThuisTeam { get; set; }
         public Club UitTeam { get; set; }
         public DateTime Speeldatum { get; set; }
         public string Uitslag { get; set; }
         public Competitie Competitie { get; set; }
+        #endregion
 
+        #region Constructor
         public Wedstrijd(Club thuisTeam, Club uitTeam, DateTime speeldatum, Competitie competitie)
         {
             this.ThuisTeam = thuisTeam;
@@ -21,11 +25,14 @@ namespace Trophymanager.Klassen
             this.Speeldatum = speeldatum;
             this.Competitie = Competitie;
         }
+        #endregion
 
+        #region Methods
         public void SpeelWedstrijd()
         {
             //TODO
         }
+        #endregion
 
     }
 }

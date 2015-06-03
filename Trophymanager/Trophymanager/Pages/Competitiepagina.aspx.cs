@@ -9,9 +9,21 @@ namespace Trophymanager.Pages
 {
     public partial class Competitiepagina : System.Web.UI.Page
     {
+        #region Fields
+        #endregion
+
+        #region Pageload
         protected void Page_Load(object sender, EventArgs e)
         {
 
         }
+        #endregion
+
+        #region Eventhandlers
+        protected void btnGaTerug_Click(object sender, EventArgs e)
+        {
+            Server.Transfer("Homepage.aspx", true);
+        }
+        #endregion
     }
 }

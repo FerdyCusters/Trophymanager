@@ -148,6 +148,31 @@ namespace Trophymanager.Klassen
             }
         }
 
+        public static int GetClubCode(Club c)
+        {
+            try
+            {
+                conn.Open();
+                cmd.CommandText = "SELECT Clubcode FROM Club WHERE Username = '" + c.Username + "' AND Clubnaam = '" + c.Clubnaam + "'";
+                dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    return Convert.ToInt32(dr[0]);
+                }
+                return 0;
+            }
+            catch
+            {
+                return 0;
+            }
+            finally
+            {
+                dr.Close();
+                conn.Close();
+            }
+        }
+
         /// <summary>
         /// Saves all data from the User to the Database
         /// </summary>
@@ -156,7 +181,7 @@ namespace Trophymanager.Klassen
             try
             {
                 conn.Open();
-                cmd.CommandText = "UPDATE Club SET Clubnaam = '" + c.Clubnaam + "', Wachtwoord = '" + c.Wachtwoord+ "', Bijnaam = '" + c.Bijnaam + "', Clubkleuren = '" + c.Clubkleuren + "'";
+                cmd.CommandText = "UPDATE Club SET Clubnaam = '" + c.Clubnaam + "', Wachtwoord = '" + c.Wachtwoord + "', Bijnaam = '" + c.Bijnaam + "', Clubkleuren = '" + c.Clubkleuren + "'";
                 cmd.ExecuteNonQuery();
                 return true;
             }
@@ -178,7 +203,7 @@ namespace Trophymanager.Klassen
             try
             {
                 conn.Open();
-                cmd.CommandText = "INSERT INTO Club (Clubcode, Landcode, Username, Wachtwoord, Clubnaam, Bijnaam, Fans, Clubkleuren) VALUES ('" + c.Clubcode + "', '" + c.Landcode + "', '" + c.Username+ "', '" + c.Wachtwoord + "', '" + c.Clubnaam + "', '" + c.Bijnaam + "', '" + c.Fans + "', '" + c.Clubkleuren + "')";
+                cmd.CommandText = "INSERT INTO Club (Landcode, Username, Wachtwoord, Clubnaam, Bijnaam, Fans, Clubkleuren) VALUES ('" + 1 + "', '" + c.Username + "', '" + c.Wachtwoord + "', '" + c.Clubnaam + "', '" + c.Bijnaam + "', '" + c.Fans + "', '" + c.Clubkleuren + "')";
                 cmd.ExecuteNonQuery();
                 return true;
             }
@@ -214,5 +239,160 @@ namespace Trophymanager.Klassen
             }
         }
         #endregion
+
+        #region Speler
+
+        public static bool AddSpeler(Speler s)
+        {
+            try
+            {
+                conn.Open();
+                cmd.CommandText = "INSERT INTO Speler (Clubcode, Naam, Leeftijd, Nummer, InOpstelling, Passen, Snelheid, Kracht, Soort) VALUES ('" + s.Club.Clubcode + "', '" + s.Naam + "', '" + s.Leeftijd + "', '" + s.Nummer + "', '" + s.InOpstelling + "', '" + s.Passen + "', '" + s.Snelheid + "', '" + s.Kracht + "', '" + s.Soort + "')";
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public static int GetSpelerCode(Speler s)
+        {
+            try
+            {
+                conn.OpenAsync();
+                cmd.CommandText = "SELECT Spelercode FROM Speler WHERE Nummer = '" + s.Nummer + "' AND Clubcode = '" + s.Club.Clubcode + "'";
+                dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    return Convert.ToInt32(dr[0]);
+                }
+                return 0;
+            }
+            catch
+            {
+                return 0;
+            }
+            finally
+            {
+                dr.Close();
+                conn.Close();
+            }
+        }
+        #endregion
+
+        #region Veldspeler
+        public static bool AddVeldSpeler(Veldspeler s)
+        {
+            try
+            {
+                conn.Open();
+                cmd.CommandText = "INSERT INTO Veldspeler (Spelercode, Soort, Positiespel, Afwerken, Koppen, Tackelen, Dekken) VALUES ('" + s.Spelercode + "', 'Veldspeler', '" + s.Positiespel + "', '" + s.Afwerken + "', '" + s.Koppen + "', '" + s.Tackelen + "', '" + s.Dekken + "')";
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public static List<Veldspeler> GetVeldpspelers(Club c)
+        {
+            try
+            {
+                List<Veldspeler> rtrn = null;
+
+                conn.Open();
+                cmd.CommandText = "SELECT S.Spelercode, S.Clubcode, S.Naam, S.Leeftijd, S.Nummer, S.InOpstelling, S.Passen, S.Snelheid, S.Kracht, S.Soort, V.Positiespel, V.Afwerken, V.Koppen, V.Tackelen, V.Dekken FROM Speler S, Veldspeler V WHERE Clubcode = '" + c.Clubcode + "'";
+                dr = cmd.ExecuteReader();
+
+                if (dr.HasRows)
+                {
+                    rtrn = new List<Veldspeler>();
+                    while (dr.Read())
+                    {
+                        rtrn.Add(new Veldspeler(dr[2].ToString(), Convert.ToInt32(dr[4]), dr[5].ToString(), Convert.ToInt32(dr[3]), Convert.ToInt32(dr[6]), Convert.ToInt32(dr[7]), Convert.ToInt32(dr[8]), dr[9].ToString(), c, Convert.ToInt32(dr[10]), Convert.ToInt32(dr[11]), Convert.ToInt32(dr[12]), Convert.ToInt32(dr[13]), Convert.ToInt32(dr[14])));
+                    }
+                }
+
+                return rtrn;
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                dr.Close();
+                conn.Close();
+            }
+        }
+
+        #endregion
+
+        #region Keeper
+        public static bool AddKeeper(Keeper s)
+        {
+            try
+            {
+                conn.Open();
+                cmd.CommandText = "INSERT INTO Keeper (Spelercode, Soort, Reflexen, Handelen, Uitkomen) VALUES ('" + s.Spelercode + "', 'Keeper', '" + s.Reflexen + "', '" + s.Handelen + "', '" + s.Uitkomen + "')";
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public static List<Keeper> GetKeepers(Club c)
+        {
+            try
+            {
+                List<Keeper> rtrn = null;
+
+                conn.Open();
+                cmd.CommandText = "SELECT S.Spelercode, S.Clubcode, S.Naam, S.Leeftijd, S.Nummer, S.InOpstelling, S.Passen, S.Snelheid, S.Kracht, S.Soort, K.Reflexen, K.Handelen, K.Uitkomen FROM Speler S, Keeper K WHERE Clubcode = '" + c.Clubcode + "'";
+                dr = cmd.ExecuteReader();
+
+                if (dr.HasRows)
+                {
+                    rtrn = new List<Keeper>();
+                    while (dr.Read())
+                    {
+                        rtrn.Add(new Keeper(dr[2].ToString(), Convert.ToInt32(dr[4]), dr[5].ToString(), Convert.ToInt32(dr[3]), Convert.ToInt32(dr[6]), Convert.ToInt32(dr[7]), Convert.ToInt32(dr[8]), dr[9].ToString(), c, Convert.ToInt32(dr[9]), Convert.ToInt32(dr[10]), Convert.ToInt32(dr[11])));
+                    }
+                }
+
+                return rtrn;
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                dr.Close();
+                conn.Close();
+            }
+
+        #endregion
+        }
     }
 }

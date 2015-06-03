@@ -10,9 +10,10 @@
     <body>
         <form id="Inlogscherm" runat="server">
             <div>
-                <asp:Button ID="btnTeampagina" Text="Team"runat="server" OnClick="btnTeam_Click" />
+                <asp:Button ID="btnTeampagina" Text="Team" runat="server" OnClick="btnTeam_Click" />
                 <asp:Button ID="btnCompetitiepagina" Text="Competitie" runat="server" OnClick="btnCompetitie_Click" />        
                 <asp:Button ID="btnWedstrijdpagina" Text="Wedstrijd" runat="server" OnClick="btnWedstrijd_Click" />
+                <asp:Button ID="btnLogUit" Text="Log uit" runat="server" OnClick="btnLogUit_Click" />
             </div>
         </form>
     </body>

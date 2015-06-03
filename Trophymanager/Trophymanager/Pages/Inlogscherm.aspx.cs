@@ -11,10 +11,6 @@ namespace Trophymanager.Pages
     {
         #region Fields
         Klassen.Club club;
-        Klassen.Competitie eredivisie = new Klassen.Competitie("Eredivisie");
-        Klassen.Competitie eersteDivisie = new Klassen.Competitie("Eerste Divisie");
-        Klassen.Competitie tweedeDivisie = new Klassen.Competitie("Tweede Divisie");
-        List<Klassen.Club> accounts = new List<Klassen.Club>();
         #endregion
 
         #region pageload
@@ -42,9 +38,9 @@ namespace Trophymanager.Pages
         {
             if (club.CheckRegistreer(tbUsername.Text, tbClubnaam.Text, this) == true)
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Informatie goed ingevuld. Uw team is aangemaakt!');", true);
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Informatie goed ingevuld. Uw team is aangemaakt! Manage je team naar de top!');", true);
                 Klassen.Club nieuweClub = new Klassen.Club(tbUsername.Text, tbPassword.Text, tbClubnaam.Text, tbBijnaam.Text, tbClubKleuren.Text);
-                accounts.Add(nieuweClub);
+                nieuweClub.VoegToeAanSysteem();
             }
             else
             {

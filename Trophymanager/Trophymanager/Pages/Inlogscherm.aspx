@@ -10,9 +10,11 @@
     <body>
         <form id="Inlogscherm" runat="server">
             <div>
+                INLOGGEN
                 <asp:TextBox ID="tbInlognaam" runat="server" placeholder="Gebruikersnaam" />
                 <asp:TextBox ID="tbWachtwoord" runat="server" placeholder="Wachtwoord" type="password" />        
                 <asp:Button id="btnInloggen" Text="Inloggen" runat="server" OnClick="btnInloggen_Click" />
+                REGISTREREN
                 <asp:TextBox ID="tbUsername" runat="server" placeholder="Gebruikersnaam" />
                 <asp:TextBox ID="tbPassword" runat="server" placeholder="Wachtwoord" type="password" />
                 <asp:TextBox ID="tbClubnaam" runat="server" placeholder="Clubnaam" />

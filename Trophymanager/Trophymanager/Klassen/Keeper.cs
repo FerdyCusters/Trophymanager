@@ -7,16 +7,20 @@ namespace Trophymanager.Klassen
 {
     public class Keeper : Speler
     {
+        #region Fields
         public int Reflexen { get; set; }
         public int Handelen { get; set; }
         public int Uitkomen { get; set; }
+        #endregion
 
-        public Keeper(string naam, int nummer, int leeftijd, int passen, int snelheid, int kracht, string soort, Club club,
-            int reflexen, int handelen, int uitkomen) : base (naam, nummer, leeftijd, passen, snelheid, kracht, soort, club)
+        #region Constructor
+        public Keeper(string naam, int nummer, string inOpstelling, int leeftijd, int passen, int snelheid, int kracht, string soort, Club club,
+            int reflexen, int handelen, int uitkomen) : base (naam, nummer, inOpstelling, leeftijd, passen, snelheid, kracht, soort, club)
         {
             this.Reflexen = reflexen;
             this.Handelen = handelen;
             this.Uitkomen = uitkomen;
         }
+        #endregion
     }
 }

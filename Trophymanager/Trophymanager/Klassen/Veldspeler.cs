@@ -7,14 +7,17 @@ namespace Trophymanager.Klassen
 {
     public class Veldspeler : Speler
     {
+        #region Fields
         public int Positiespel { get; set; }
         public int Afwerken { get; set; }
         public int Koppen { get; set; }
         public int Tackelen { get; set; }
         public int Dekken { get; set; }
+        #endregion
 
-        public Veldspeler(string naam, int nummer, int leeftijd, int passen, int snelheid, int kracht, string soort, Club club, 
-            int positiespel, int afwerken, int koppen, int tackelen, int dekken) : base(naam, nummer, leeftijd,
+        #region Constructor
+        public Veldspeler(string naam, int nummer, string inOpstelling, int leeftijd, int passen, int snelheid, int kracht, string soort, Club club, 
+            int positiespel, int afwerken, int koppen, int tackelen, int dekken) : base(naam, nummer, inOpstelling, leeftijd,
             passen, snelheid, kracht, soort, club)
         {
             this.Positiespel = positiespel;
@@ -23,5 +26,6 @@ namespace Trophymanager.Klassen
             this.Tackelen = tackelen;
             this.Dekken = dekken;
         }
+        #endregion
     }
 }
