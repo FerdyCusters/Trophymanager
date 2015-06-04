@@ -60,6 +60,10 @@ namespace Trophymanager.Klassen
 
         #region Club
 
+        /// <summary>
+        /// Checked of de username en het wachtwoord kloppen.
+        /// </summary>
+
         public static bool VerifyClub(string username, string password)
         {
             try
@@ -285,6 +289,28 @@ namespace Trophymanager.Klassen
                 conn.Close();
             }
         }
+
+        /// <summary>
+        /// Update de "InOpstelling" status van een speler
+        /// </summary>
+        public static bool UpdateSpeler(Speler s, string inOpstelling)
+        {
+            try
+            {
+                conn.Open();
+                cmd.CommandText = "UPDATE SPELER SET InOpstelling = '" + inOpstelling + "' WHERE Spelercode = '" + s.Spelercode + "'";
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
         #endregion
 
         #region Veldspeler
@@ -307,14 +333,14 @@ namespace Trophymanager.Klassen
             }
         }
 
-        public static List<Veldspeler> GetVeldpspelers(Club c)
+        public static List<Veldspeler> GetVeldpspelers(Club c, string basis)
         {
             try
             {
-                List<Veldspeler> rtrn = null;
+                List<Veldspeler> rtrn = new List<Veldspeler>();
 
                 conn.Open();
-                cmd.CommandText = "SELECT S.Spelercode, S.Clubcode, S.Naam, S.Leeftijd, S.Nummer, S.InOpstelling, S.Passen, S.Snelheid, S.Kracht, S.Soort, V.Positiespel, V.Afwerken, V.Koppen, V.Tackelen, V.Dekken FROM Speler S, Veldspeler V WHERE S.Clubcode = '" + c.Clubcode + "' AND S.Soort = 'Veldspeler' AND S.Spelercode = V.Spelercode";
+                cmd.CommandText = "SELECT S.Spelercode, S.Clubcode, S.Naam, S.Leeftijd, S.Nummer, S.InOpstelling, S.Passen, S.Snelheid, S.Kracht, S.Soort, V.Positiespel, V.Afwerken, V.Koppen, V.Tackelen, V.Dekken FROM Speler S, Veldspeler V WHERE S.Clubcode = '" + c.Clubcode + "' AND S.Soort = 'Veldspeler' AND S.Spelercode = V.Spelercode AND InOpstelling = '" + basis + "'";
                 dr = cmd.ExecuteReader();
 
                 if (dr.HasRows)
@@ -361,14 +387,14 @@ namespace Trophymanager.Klassen
             }
         }
 
-        public static List<Keeper> GetKeepers(Club c)
+        public static List<Keeper> GetKeepers(Club c, string basis)
         {
             try
             {
-                List<Keeper> rtrn = null;
+                List<Keeper> rtrn = new List<Keeper>();
 
                 conn.Open();
-                cmd.CommandText = "SELECT S.Spelercode, S.Clubcode, S.Naam, S.Leeftijd, S.Nummer, S.InOpstelling, S.Passen, S.Snelheid, S.Kracht, S.Soort, K.Reflexen, K.Handelen, K.Uitkomen FROM Speler S, Keeper K WHERE S.Clubcode = '" + c.Clubcode + "' AND S.Soort = 'Keeper' AND S.Spelercode = K.Spelercode";
+                cmd.CommandText = "SELECT S.Spelercode, S.Clubcode, S.Naam, S.Leeftijd, S.Nummer, S.InOpstelling, S.Passen, S.Snelheid, S.Kracht, S.Soort, K.Reflexen, K.Handelen, K.Uitkomen FROM Speler S, Keeper K WHERE S.Clubcode = '" + c.Clubcode + "' AND S.Soort = 'Keeper' AND S.Spelercode = K.Spelercode AND InOpstelling = '" + basis + "'";
                 dr = cmd.ExecuteReader();
 
                 if (dr.HasRows)

@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace Trophymanager.Pages
 {
@@ -21,11 +17,24 @@ namespace Trophymanager.Pages
         #region Pageload
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
+            // Er wordt getest of er een speler is aangeklikt.
+            if(lbSelectie.SelectedItem != null)
             {
-                keepers = Klassen.DBConnect.GetKeepers(Inlogscherm.Gebruiker);
-                veldspelers = Klassen.DBConnect.GetVeldpspelers(Inlogscherm.Gebruiker);
+                index = lbSelectie.SelectedItem.Text.IndexOf(" ");
+                code = lbSelectie.SelectedItem.Text.Substring(0, index);
             }
+
+            if(lbOpstelling.SelectedItem != null)
+            {
+                index = lbOpstelling.SelectedItem.Text.IndexOf(" ");
+                code = lbOpstelling.SelectedItem.Text.Substring(0, index);
+            }
+
+            keepers = Klassen.DBConnect.GetKeepers(Inlogscherm.Gebruiker, "false");
+            veldspelers = Klassen.DBConnect.GetVeldpspelers(Inlogscherm.Gebruiker, "false");
+            opgesteldeKeepers = Klassen.DBConnect.GetKeepers(Inlogscherm.Gebruiker, "true");
+            opgesteldeVeldspelers = Klassen.DBConnect.GetVeldpspelers(Inlogscherm.Gebruiker, "true");
+
             Reload();
         }
         #endregion
@@ -40,21 +49,24 @@ namespace Trophymanager.Pages
         }
 
         /// <summary>
-        /// Speler wordt naar rechts verplaatst
+        /// Speler wordt naar rechts verplaatst (van selectie naar de opstelling)
         /// </summary>
 
         protected void btnRechts_Click(object sender, EventArgs e)
         {
-                index = lbSelectie.SelectedItem.Text.IndexOf(" ");
-                code = lbSelectie.SelectedItem.Text.Substring(0, index);
+            // Er wordt gezocht naar de speler die is aangeklikt. Die speler wordt naar de juiste lijst verplaatst
+
                 if (keepers.Count > 0)
                 {
                     foreach (Klassen.Keeper k in keepers.ToArray())
                     {
+                        k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
                         if (k.Spelercode == Convert.ToInt32(code))
                         {
                             keepers.Remove(k);
                             opgesteldeKeepers.Add(k);
+                            Klassen.DBConnect.UpdateSpeler(k, "true");
+
                         }
                     }
                 }
@@ -62,10 +74,12 @@ namespace Trophymanager.Pages
                 {
                     foreach (Klassen.Veldspeler v in veldspelers.ToArray())
                     {
+                        v.Spelercode = Klassen.DBConnect.GetSpelerCode(v);
                         if (v.Spelercode == Convert.ToInt32(code))
                         {
                             veldspelers.Remove(v);
                             opgesteldeVeldspelers.Add(v);
+                            Klassen.DBConnect.UpdateSpeler(v, "true");
                         }
                     }
                 }
@@ -73,20 +87,22 @@ namespace Trophymanager.Pages
         }
 
         /// <summary>
-        /// Speler wordt naar links verplaatst
+        /// Speler wordt naar links verplaatst (Van opstelling naar de selectie)
         /// </summary>
         protected void btnLinks_Click(object sender, EventArgs e)
         {
-            index = lbOpstelling.SelectedItem.Text.IndexOf(" ");
-            code = lbOpstelling.SelectedItem.Text.Substring(0, index);
+            // Er wordt gezocht naar de speler die is aangeklikt. Die speler wordt naar de juiste lijst verplaatst
+
             if (opgesteldeKeepers.Count > 0)
             {
                 foreach (Klassen.Keeper k in opgesteldeKeepers.ToArray())
                 {
+                    k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
                     if (k.Spelercode == Convert.ToInt32(code))
                     {
                         opgesteldeKeepers.Remove(k);
                         keepers.Add(k);
+                        Klassen.DBConnect.UpdateSpeler(k, "false");
                     }
                 }
             }
@@ -94,10 +110,12 @@ namespace Trophymanager.Pages
             {
                 foreach (Klassen.Veldspeler v in opgesteldeVeldspelers.ToArray())
                 {
+                    v.Spelercode = Klassen.DBConnect.GetSpelerCode(v);
                     if (v.Spelercode == Convert.ToInt32(code))
                     {
                         opgesteldeVeldspelers.Remove(v);
                         veldspelers.Add(v);
+                        Klassen.DBConnect.UpdateSpeler(v, "false");
                     }
                 }
             }
@@ -119,8 +137,6 @@ namespace Trophymanager.Pages
         {
             lbSelectie.Items.Clear();
             lbOpstelling.Items.Clear();
-            index = 0;
-            code = "";
 
             if(keepers.Count > 0)
             {
@@ -138,17 +154,16 @@ namespace Trophymanager.Pages
                     lbSelectie.Items.Add(v.ToString());
                 }
             }
-
-            if(opgesteldeKeepers.Count > 0)
+            if (opgesteldeKeepers != null)
             {
-                foreach(Klassen.Keeper k in opgesteldeKeepers)
+                foreach (Klassen.Keeper k in opgesteldeKeepers)
                 {
                     k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
                     lbOpstelling.Items.Add(k.ToString());
                 }
             }
 
-            if (opgesteldeVeldspelers.Count > 0)
+            if (opgesteldeVeldspelers != null)
             {
                 foreach (Klassen.Veldspeler v in opgesteldeVeldspelers)
                 {
@@ -156,6 +171,7 @@ namespace Trophymanager.Pages
                     lbOpstelling.Items.Add(v.ToString());
                 }
             }
+
         }
         #endregion
     }
