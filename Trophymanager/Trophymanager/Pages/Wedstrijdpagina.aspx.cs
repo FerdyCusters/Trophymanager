@@ -20,6 +20,12 @@ namespace Trophymanager.Pages
         #endregion
 
         #region Eventhandlers
+
+        protected void btnSpeelWedstrijd_Click(object sender, EventArgs e)
+        {
+
+        }
+
         protected void btnGaTerug_Click(object sender, EventArgs e)
         {
             Server.Transfer("Homepage.aspx", true);

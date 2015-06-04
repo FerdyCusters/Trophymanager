@@ -32,7 +32,7 @@ namespace Trophymanager.Klassen
             DBConnect.AddCT(club, this);
         }
 
-        public void VoegWedstrijdToe(Wedstrijd wedstrijd)
+        public void SpeelWedstrijd(Wedstrijd wedstrijd)
         {
             //TODO
         }

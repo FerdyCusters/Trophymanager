@@ -21,9 +21,11 @@ namespace Trophymanager.Pages
         #region Pageload
         protected void Page_Load(object sender, EventArgs e)
         {
-            keepers = Klassen.DBConnect.GetKeepers(Inlogscherm.Gebruiker);
-            veldspelers = Klassen.DBConnect.GetVeldpspelers(Inlogscherm.Gebruiker);
-
+            if(!IsPostBack)
+            {
+                keepers = Klassen.DBConnect.GetKeepers(Inlogscherm.Gebruiker);
+                veldspelers = Klassen.DBConnect.GetVeldpspelers(Inlogscherm.Gebruiker);
+            }
             Reload();
         }
         #endregion
@@ -43,33 +45,31 @@ namespace Trophymanager.Pages
 
         protected void btnRechts_Click(object sender, EventArgs e)
         {
-            index = lbSelectie.SelectedItem.Text.IndexOf(" ");
-            code = lbSelectie.SelectedItem.Text.Substring(0, index);
-            if(keepers.Count > 0)
-            {
-                foreach(Klassen.Keeper k in keepers.ToArray())
+                index = lbSelectie.SelectedItem.Text.IndexOf(" ");
+                code = lbSelectie.SelectedItem.Text.Substring(0, index);
+                if (keepers.Count > 0)
                 {
-                    if(k.Spelercode == Convert.ToInt32(code))
+                    foreach (Klassen.Keeper k in keepers.ToArray())
                     {
-                        keepers.Remove(k);
-                        opgesteldeKeepers.Add(k);
+                        if (k.Spelercode == Convert.ToInt32(code))
+                        {
+                            keepers.Remove(k);
+                            opgesteldeKeepers.Add(k);
+                        }
                     }
                 }
-            if(veldspelers.Count > 0)
-            {
-                foreach (Klassen.Veldspeler v in veldspelers.ToArray())
+                if (veldspelers.Count > 0)
                 {
-                    if (v.Spelercode == Convert.ToInt32(code))
+                    foreach (Klassen.Veldspeler v in veldspelers.ToArray())
                     {
-                        veldspelers.Remove(v);
-                        opgesteldeVeldspelers.Add(v);
+                        if (v.Spelercode == Convert.ToInt32(code))
+                        {
+                            veldspelers.Remove(v);
+                            opgesteldeVeldspelers.Add(v);
+                        }
                     }
                 }
-            }
-
-            Reload();
-            }
-
+                Reload();
         }
 
         /// <summary>
@@ -89,18 +89,19 @@ namespace Trophymanager.Pages
                         keepers.Add(k);
                     }
                 }
-                if (opgesteldeVeldspelers.Count > 0)
+            }
+            if (opgesteldeVeldspelers.Count > 0)
+            {
+                foreach (Klassen.Veldspeler v in opgesteldeVeldspelers.ToArray())
                 {
-                    foreach (Klassen.Veldspeler v in opgesteldeVeldspelers.ToArray())
+                    if (v.Spelercode == Convert.ToInt32(code))
                     {
-                        if (v.Spelercode == Convert.ToInt32(code))
-                        {
-                            opgesteldeVeldspelers.Remove(v);
-                            veldspelers.Add(v);
-                        }
+                        opgesteldeVeldspelers.Remove(v);
+                        veldspelers.Add(v);
                     }
                 }
             }
+            Reload();
         }
 
         /// <summary>
