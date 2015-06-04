@@ -123,14 +123,6 @@ namespace Trophymanager.Pages
         }
 
         /// <summary>
-        /// Opstelling wordt opgeslagen
-        /// </summary>
-        protected void btnSlaOp_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        /// <summary>
         /// Velden worden gereload
         /// </summary>
         public void Reload()

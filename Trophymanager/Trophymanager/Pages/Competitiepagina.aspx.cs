@@ -22,9 +22,12 @@ namespace Trophymanager.Pages
             clubs = Klassen.DBConnect.GetCTs();
             clubs.Sort();
 
+            int counter = 1;
+
             foreach(Klassen.Club c in clubs.ToArray())
             {
-                lbStand.Items.Add(c.ToString());
+                lbStand.Items.Add(counter + ".   " + c.ToString());
+                counter++;
             }
         }
         #endregion

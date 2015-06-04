@@ -22,6 +22,10 @@ namespace Trophymanager.Klassen
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Training wordt uitgevoerd
+        /// </summary>
         public void VoerTrainingUit()
         {
             //TODO

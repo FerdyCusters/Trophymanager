@@ -14,8 +14,7 @@
     <asp:Button ID="btnRechts" Text=">>" runat="server" OnClick="btnRechts_Click" />
     <asp:Button ID="btnLinks" Text="<<" runat="server" OnClick="btnLinks_Click" />
     OPSTELLING
-    <asp:ListBox ID="lbOpstelling" runat="server" AutoPostBack="true" Width="400" Height="500"/>
-    <asp:Button ID="btnSlaOp" Text="Opslaan" runat="server" OnClick="btnSlaOp_Click" />
+    <asp:ListBox ID="lbOpstelling" runat="server" Width="400" Height="500"/>
     <asp:Button ID="btnGaTerug" Text="Ga terug" runat="server" OnClick="btnGaTerug_Click" />
     </div>
     </form>

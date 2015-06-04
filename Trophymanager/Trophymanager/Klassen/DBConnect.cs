@@ -21,7 +21,7 @@ namespace Trophymanager.Klassen
 
         #region General
         /// <summary>
-        /// Initializes the database connection
+        /// Initializeert de database connectie
         /// </summary>
         public static bool InitializeConnection()
         {
@@ -41,7 +41,7 @@ namespace Trophymanager.Klassen
         }
 
         /// <summary>
-        /// Returns true when we are connected to the database.
+        /// Returned true als er is geconnect met de database
         /// </summary>
         public static bool TestConnection()
         {
@@ -90,7 +90,7 @@ namespace Trophymanager.Klassen
         }
 
         /// <summary>
-        /// Returns all Users in the Database
+        /// Haalt alle clubs uit de database
         /// </summary>
         public static List<Club> GetClubs()
         {
@@ -125,7 +125,7 @@ namespace Trophymanager.Klassen
         }
 
         /// <summary>
-        /// Returns the corresponding User
+        /// Haalt een bepaalde club uit de database
         /// </summary>
         public static Club GetClub(string username)
         {
@@ -152,6 +152,11 @@ namespace Trophymanager.Klassen
             }
         }
 
+        /// <summary>
+        /// Haalt een clubcode uit de database
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
         public static int GetClubCode(Club c)
         {
             try
@@ -178,7 +183,7 @@ namespace Trophymanager.Klassen
         }
 
         /// <summary>
-        /// Saves all data from the User to the Database
+        /// Update een club in de database
         /// </summary>
         public static bool UpdateClub(Club c)
         {
@@ -200,7 +205,7 @@ namespace Trophymanager.Klassen
         }
 
         /// <summary>
-        /// Adds new User to the Database
+        /// Voegt een club toe aan de database
         /// </summary>
         public static bool AddClub(Club c)
         {
@@ -222,7 +227,7 @@ namespace Trophymanager.Klassen
         }
 
         /// <summary>
-        /// Delete current User from the Database
+        /// Verwijdert een club uit de database
         /// </summary>
         public static bool DeleteClub(string clubnaam)
         {
@@ -246,6 +251,11 @@ namespace Trophymanager.Klassen
 
         #region Speler
 
+        /// <summary>
+        /// Speler wordt aan de database toegevoegd
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public static bool AddSpeler(Speler s)
         {
             try
@@ -265,6 +275,11 @@ namespace Trophymanager.Klassen
             }
         }
 
+        /// <summary>
+        /// Spelercode wordt uit de database gehaald
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public static int GetSpelerCode(Speler s)
         {
             try
@@ -314,6 +329,12 @@ namespace Trophymanager.Klassen
         #endregion
 
         #region Veldspeler
+
+        /// <summary>
+        /// Veldspeler wordt aan de database toegevoegd
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public static bool AddVeldSpeler(Veldspeler s)
         {
             try
@@ -333,6 +354,12 @@ namespace Trophymanager.Klassen
             }
         }
 
+        /// <summary>
+        /// Veldspelers worden uit de database gehaald
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="basis"></param>
+        /// <returns></returns>
         public static List<Veldspeler> GetVeldpspelers(Club c, string basis)
         {
             try
@@ -368,6 +395,12 @@ namespace Trophymanager.Klassen
         #endregion
 
         #region Keeper
+
+        /// <summary>
+        /// Keeper wordt aan de database toegevoegd
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public static bool AddKeeper(Keeper s)
         {
             try
@@ -387,6 +420,12 @@ namespace Trophymanager.Klassen
             }
         }
 
+        /// <summary>
+        /// Keepers worden uit de database gehaald
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="basis"></param>
+        /// <returns></returns>
         public static List<Keeper> GetKeepers(Club c, string basis)
         {
             try

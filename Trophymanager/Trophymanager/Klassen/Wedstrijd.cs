@@ -28,6 +28,10 @@ namespace Trophymanager.Klassen
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Wedstrijd wordt gegenereert
+        /// </summary>
         public void SpeelWedstrijd()
         {
             //TODO

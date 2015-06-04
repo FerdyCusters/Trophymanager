@@ -26,6 +26,11 @@ namespace Trophymanager.Klassen
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Club wordt toegevoegd aan de competitie (DB)
+        /// </summary>
+        /// <param name="club"></param>
         public void VoegClubToe(Club club)
         {
             Clubs.Add(club);
@@ -33,11 +38,6 @@ namespace Trophymanager.Klassen
         }
 
         public void SpeelWedstrijd(Wedstrijd wedstrijd)
-        {
-            //TODO
-        }
-
-        public void GenereerStand()
         {
             //TODO
         }
