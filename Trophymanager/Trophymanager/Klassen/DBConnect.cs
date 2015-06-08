@@ -512,5 +512,32 @@ namespace Trophymanager.Klassen
         }
 
         #endregion
+
+        #region Toernooi
+        public static int GetToernooiCode(Competitie c)
+        {
+            try
+            {
+                conn.OpenAsync();
+                cmd.CommandText = "SELECT Toernooicode FROM Toernooi WHERE Naam = '" + c.Naam + "'";
+                dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    return Convert.ToInt32(dr[0]);
+                }
+                return 0;
+            }
+            catch
+            {
+                return 0;
+            }
+            finally
+            {
+                dr.Close();
+                conn.Close();
+            }
+        }
+        #endregion
     }
 }

@@ -33,6 +33,8 @@ namespace Trophymanager.Klassen
         /// <param name="club"></param>
         public void VoegClubToe(Club club)
         {
+            club.Clubcode = DBConnect.GetClubCode(club);
+            this.Toernooicode = DBConnect.GetToernooiCode(this);
             Clubs.Add(club);
             DBConnect.AddCT(club, this);
         }
