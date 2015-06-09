@@ -42,8 +42,9 @@ namespace Trophymanager.Klassen
         public void SpeelWedstrijd(Club thuisTeam, Club uitTeam)
         {
             Wedstrijd wedstrijd = new Wedstrijd(thuisTeam, uitTeam, DateTime.Now.ToString("yyyy-MM-dd"), "19:45", this);
-            wedstrijd.SpeelWedstrijd();
+            wedstrijd.ThuisTeam.Clubcode = DBConnect.GetClubCode(wedstrijd.ThuisTeam);
             wedstrijd.UitTeam.Clubcode = DBConnect.GetClubCode(wedstrijd.UitTeam);
+            wedstrijd.SpeelWedstrijd();
             DBConnect.AddWedstrijd(wedstrijd);
         }
         #endregion

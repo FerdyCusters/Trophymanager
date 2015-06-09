@@ -55,6 +55,7 @@ namespace Trophymanager.Klassen
                     ThuisTeam.AantalGewonnen = c.AantalGewonnen;
                     ThuisTeam.AantalGelijk = c.AantalGelijk;
                     ThuisTeam.AantalVerloren = c.AantalVerloren;
+                    ThuisTeam.AantalPunten = c.AantalPunten;
                 }
                 if (c.Clubcode == UitTeam.Clubcode)
                 {
@@ -62,6 +63,7 @@ namespace Trophymanager.Klassen
                     UitTeam.AantalGewonnen = c.AantalGewonnen;
                     UitTeam.AantalGelijk = c.AantalGelijk;
                     UitTeam.AantalVerloren = c.AantalVerloren;
+                    UitTeam.AantalPunten = c.AantalPunten;
                 }
 
             }

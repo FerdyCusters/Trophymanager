@@ -9,6 +9,7 @@
     using Trophymanager.Klassen;
     public partial class Wedstrijdpagina : System.Web.UI.Page
     {
+
         #region Fields
         private List<Club> clubs = new List<Club>();
         #endregion
