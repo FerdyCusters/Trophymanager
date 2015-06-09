@@ -12,18 +12,18 @@
         <asp:ListBox ID="lbSelectie" autopostback="true" runat="server" Width="350" Height="350" />
     </div>
     <div id="btn_Rechts">
-        <asp:Button ID="btnRechts" Text=">>" runat="server" OnClick="btnRechts_Click" />
+        <asp:Button ID="btnRechts" Text=">>" runat="server" OnClick="BtnRechts_Click" />
     </div>
     <div id="btn_Links">
-        <asp:Button ID="btnLinks" Text="<<" runat="server" OnClick="btnLinks_Click" />
+        <asp:Button ID="btnLinks" Text="<<" runat="server" OnClick="BtnLinks_Click" />
     </div>
     <div id="lb_Opstelling">
-        <asp:ListBox ID="lbOpstelling" autopostback="true" Write="true" runat="server" Width="350" Height="350" />
+        <asp:ListBox ID="lbOpstelling" autopostback="true" runat="server" Width="350" Height="350" />
     </div>
     <div id="lb_Statestiek">
         <asp:ListBox ID="lbStatestiek" runat="server" Width="350" Height="250"/>
     </div>
     <div id="btn_Train">
-        <asp:Button ID="Button2" runat="server" Text="Trainen" OnClick="btnTrain_Click" />
+        <asp:Button ID="btnTrain" runat="server" Text="Trainen" OnClick="BtnTrain_Click" />
     </div>
 </asp:Content>

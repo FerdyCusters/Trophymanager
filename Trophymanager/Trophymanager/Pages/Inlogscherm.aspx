@@ -21,7 +21,7 @@
                     <asp:TextBox ID="tbWachtwoord" runat="server" placeholder="Wachtwoord" type="password" />
                 </div>
                 <div id="button1">      
-                    <asp:Button id="btnInloggen" Text="Inloggen" runat="server" OnClick="btnInloggen_Click" />
+                    <asp:Button id="btnInloggen" Text="Inloggen" runat="server" OnClick="BtnInloggen_Click" />
                 </div>
             <div id ="i_Registreren_Balkje">
                 <h1>
@@ -45,7 +45,7 @@
                     <asp:TextBox ID="tbClubKleuren" runat="server" placeholder="Clubkleuren" />  
                 </div>
                 <div id="button2">        
-                    <asp:Button id="btnRegistreer" Text="Registreren" runat="server" OnClick="btnRegistreren_Click" />
+                    <asp:Button id="btnRegistreer" Text="Registreren" runat="server" OnClick="BtnRegistreren_Click" />
                 </div>
             </div>
         </form>

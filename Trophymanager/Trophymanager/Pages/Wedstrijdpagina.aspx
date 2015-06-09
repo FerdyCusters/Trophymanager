@@ -5,6 +5,6 @@
     <div>
     <asp:ListBox ID="lbTeams" runat="server" Height="200" Width="300" />
     <asp:ListBox ID="lbWedstrijden" runat="server" Height="200" Width="500" />
-    <asp:Button ID="btnSpeelWedstrijd" Text="Speel!" runat="server" OnClick="btnSpeelWedstrijd_Click" />
+    <asp:Button ID="btnSpeelWedstrijd" Text="Speel!" runat="server" OnClick="BtnSpeelWedstrijd_Click" />
     </div>
 </asp:Content>

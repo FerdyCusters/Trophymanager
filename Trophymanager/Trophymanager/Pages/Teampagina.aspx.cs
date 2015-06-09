@@ -4,91 +4,128 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Web;
+    using System.Web.Configuration;
     using System.Web.UI;
     using System.Web.UI.WebControls;
-    using System.Web.Configuration;
     using Trophymanager.Klassen;
+
+    /// <summary>
+    /// Teampagina page.
+    /// </summary>
     public partial class Teampagina : System.Web.UI.Page
     {
         #region Fields
-        List<Klassen.Keeper> keepers = new List<Klassen.Keeper>();
-        List<Klassen.Veldspeler> veldspelers = new List<Klassen.Veldspeler>();
-        List<Klassen.Keeper> opgesteldeKeepers = new List<Klassen.Keeper>();
-        List<Klassen.Veldspeler> opgesteldeVeldspelers = new List<Klassen.Veldspeler>();
+
+        /// <summary>
+        /// Lijst met niet-opgestelde keepers.
+        /// </summary>
+        private List<Klassen.Keeper> keepers = new List<Klassen.Keeper>();
+
+        /// <summary>
+        /// Lijst met niet-opgstelde veldspelers.
+        /// </summary>
+        private List<Klassen.Veldspeler> veldspelers = new List<Klassen.Veldspeler>();
+
+        /// <summary>
+        /// Lijst met wel-opgestelde keepers.
+        /// </summary>
+        private List<Klassen.Keeper> opgesteldeKeepers = new List<Klassen.Keeper>();
+
+        /// <summary>
+        /// Lijst met wel-opgestelde veldspelers.
+        /// </summary>
+        private List<Klassen.Veldspeler> opgesteldeVeldspelers = new List<Klassen.Veldspeler>();
+
+        /// <summary>
+        /// Integer index.
+        /// </summary>
         private int index;
+
+        /// <summary>
+        /// String code.
+        /// </summary>
         private string code;
+
+        /// <summary>
+        /// Aantal spelers in de opstelling
+        /// </summary>
         private int opstellingCount;
+
         #endregion
 
         #region Pageload
+
+        /// <summary>
+        /// De Page Load van de teampagina.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
             // Lijsten worden ge-update zoals de situatie in de database is.
-            keepers = Klassen.DBConnect.GetKeepers(Inlogscherm.Gebruiker, "false");
-            veldspelers = Klassen.DBConnect.GetVeldpspelers(Inlogscherm.Gebruiker, "false");
-            opgesteldeKeepers = Klassen.DBConnect.GetKeepers(Inlogscherm.Gebruiker, "true");
-            opgesteldeVeldspelers = Klassen.DBConnect.GetVeldpspelers(Inlogscherm.Gebruiker, "true");
+            this.keepers = Klassen.DBConnect.GetKeepers(Inlogscherm.Gebruiker, "false");
+            this.veldspelers = Klassen.DBConnect.GetVeldpspelers(Inlogscherm.Gebruiker, "false");
+            this.opgesteldeKeepers = Klassen.DBConnect.GetKeepers(Inlogscherm.Gebruiker, "true");
+            this.opgesteldeVeldspelers = Klassen.DBConnect.GetVeldpspelers(Inlogscherm.Gebruiker, "true");
 
             // Variabelen worden leeggemaakt.
-            index = 0;
-            code = "";
+            this.index = 0;
+            this.code = "";
 
             // Er wordt getest of er een speler is aangeklikt.
             // Als er een speler is aangeklik wordt er opgeslagen om welke speler het gaat.
             // Ook worden de stats in lbStatestiek aangepast naar de stats van de geselecteerde speler.
-            if (lbSelectie.SelectedItem != null && lbOpstelling.SelectedItem != null)
+            if (this.lbSelectie.SelectedItem != null && this.lbOpstelling.SelectedItem != null)
             {
-                Reload();
-                lbStatestiek.Items.Clear();
-            }
-            if (lbSelectie.SelectedItem != null && lbOpstelling.SelectedItem == null)
-            {
-                index = lbSelectie.SelectedItem.Text.IndexOf(" ");
-                code = lbSelectie.SelectedItem.Text.Substring(0, index);
-                opstellingCount = lbOpstelling.Items.Count;
-                UpdateStatsListbox();
+                this.Reload();
+                this.lbStatestiek.Items.Clear();
             }
 
-            if (lbOpstelling.SelectedItem != null && lbSelectie.SelectedItem == null)
+            if (this.lbSelectie.SelectedItem != null && this.lbOpstelling.SelectedItem == null)
             {
-                index = lbOpstelling.SelectedItem.Text.IndexOf(" ");
-                code = lbOpstelling.SelectedItem.Text.Substring(0, index);
-                UpdateStatsListbox();
+                this.index = this.lbSelectie.SelectedItem.Text.IndexOf(" ");
+                this.code = this.lbSelectie.SelectedItem.Text.Substring(0, this.index);
+                this.opstellingCount = this.lbOpstelling.Items.Count;
+                this.UpdateStatsListbox();
+            }
+
+            if (this.lbOpstelling.SelectedItem != null && this.lbSelectie.SelectedItem == null)
+            {
+                this.index = this.lbOpstelling.SelectedItem.Text.IndexOf(" ");
+                this.code = this.lbOpstelling.SelectedItem.Text.Substring(0, this.index);
+                this.UpdateStatsListbox();
             }
 
             // Deze methode wordt alleen maar de eerste keer uitgevoerd als de pagina in page_load komt.
-            if (Convert.ToInt32(Session["Counter"]) < 1)
+            if (Convert.ToInt32(Master.Session["Counter"]) < 1)
             {
-                Reload();
-                Session["Counter"] = 1;
+                this.Reload();
+                Master.Session["Counter"] = 1;
             }
         }
         #endregion
-
-        // Event handlers
 
         #region btnRechts
         /// <summary>
         /// Speler wordt naar rechts verplaatst (van selectie naar de opstelling)
         /// </summary>
-        protected void btnRechts_Click(object sender, EventArgs e)
+        protected void BtnRechts_Click(object sender, EventArgs e)
         {
             // Er wordt gekeken of er een keeper is aangeklikt. Als dit het geval is wordt deze naar de opstelling verplaats
             // .. indien de opstelling nog geen 11 spelers bevat.
-
-            if (keepers.Count > 0 && opstellingCount < 11 && lbSelectie.SelectedItem != null)
+            if (this.keepers.Count > 0 && this.opstellingCount < 11 && this.lbSelectie.SelectedItem != null)
             {
-                foreach (Klassen.Keeper k in keepers.ToArray())
+                foreach (Klassen.Keeper k in this.keepers.ToArray())
                 {
                     k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
-                    if (k.Spelercode == Convert.ToInt32(code))
+                    if (k.Spelercode == Convert.ToInt32(this.code))
                     {
-                        keepers.Remove(k);
-                        opgesteldeKeepers.Add(k);
+                        this.keepers.Remove(k);
+                        this.opgesteldeKeepers.Add(k);
                         Klassen.DBConnect.UpdateSpeler(k, "true");
-                        if (k.Spelercode == Convert.ToInt32(code))
+                        if (k.Spelercode == Convert.ToInt32(this.code))
                         {
-                            KeeperStats(k, lbSelectie);
+                            this.KeeperStats(k, this.lbSelectie);
                         }
                     }
                 }
@@ -96,21 +133,21 @@
 
             // Er wordt gekeken of er een veldspeler is aangeklikt. Als dit het geval is wordt deze naar de opstelling verplaats
             // .. indien de opstelling nog geen 11 spelers bevat.
-
-            if (veldspelers.Count > 0 && opstellingCount < 11 && lbSelectie.SelectedItem != null)
+            if (this.veldspelers.Count > 0 && this.opstellingCount < 11 && this.lbSelectie.SelectedItem != null)
             {
-                foreach (Klassen.Veldspeler v in veldspelers.ToArray())
+                foreach (Klassen.Veldspeler v in this.veldspelers.ToArray())
                 {
                     v.Spelercode = Klassen.DBConnect.GetSpelerCode(v);
-                    if (v.Spelercode == Convert.ToInt32(code))
+                    if (v.Spelercode == Convert.ToInt32(this.code))
                     {
-                        veldspelers.Remove(v);
-                        opgesteldeVeldspelers.Add(v);
+                        this.veldspelers.Remove(v);
+                        this.opgesteldeVeldspelers.Add(v);
                         Klassen.DBConnect.UpdateSpeler(v, "true");
                     }
                 }
             }
-            Reload();
+
+            this.Reload();
         }
         #endregion
 
@@ -118,20 +155,19 @@
         /// <summary>
         /// Speler wordt naar links verplaatst (Van opstelling naar de selectie)
         /// </summary>
-        protected void btnLinks_Click(object sender, EventArgs e)
+        protected void BtnLinks_Click(object sender, EventArgs e)
         {
             // Er wordt gekeken of er een keeper is aangeklikt. Als dit het geval is wordt deze naar de selectie verplaats
             // .. indien de opstelling nog geen 11 spelers bevat.
-
-            if (opgesteldeKeepers.Count > 0 && lbOpstelling.SelectedItem != null)
+            if (this.opgesteldeKeepers.Count > 0 && this.lbOpstelling.SelectedItem != null)
             {
-                foreach (Klassen.Keeper k in opgesteldeKeepers.ToArray())
+                foreach (Klassen.Keeper k in this.opgesteldeKeepers.ToArray())
                 {
                     k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
-                    if (k.Spelercode == Convert.ToInt32(code))
+                    if (k.Spelercode == Convert.ToInt32(this.code))
                     {
-                        opgesteldeKeepers.Remove(k);
-                        keepers.Add(k);
+                        this.opgesteldeKeepers.Remove(k);
+                        this.keepers.Add(k);
                         Klassen.DBConnect.UpdateSpeler(k, "false");
                     }
                 }
@@ -139,21 +175,21 @@
 
             // Er wordt gekeken of er een veldspeler is aangeklikt. Als dit het geval is wordt deze naar de selectie verplaats
             // .. indien de opstelling nog geen 11 spelers bevat.
-
-            if (opgesteldeVeldspelers.Count > 0 && lbOpstelling.SelectedItem != null)
+            if (this.opgesteldeVeldspelers.Count > 0 && this.lbOpstelling.SelectedItem != null)
             {
-                foreach (Klassen.Veldspeler v in opgesteldeVeldspelers.ToArray())
+                foreach (Klassen.Veldspeler v in this.opgesteldeVeldspelers.ToArray())
                 {
                     v.Spelercode = Klassen.DBConnect.GetSpelerCode(v);
-                    if (v.Spelercode == Convert.ToInt32(code))
+                    if (v.Spelercode == Convert.ToInt32(this.code))
                     {
-                        opgesteldeVeldspelers.Remove(v);
-                        veldspelers.Add(v);
+                        this.opgesteldeVeldspelers.Remove(v);
+                        this.veldspelers.Add(v);
                         Klassen.DBConnect.UpdateSpeler(v, "false");
                     }
                 }
             }
-            Reload();
+
+            this.Reload();
         }
         #endregion
 
@@ -165,74 +201,78 @@
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void btnTrain_Click(object sender, EventArgs e)
+        protected void BtnTrain_Click(object sender, EventArgs e)
         {
-            foreach(Keeper k in keepers)
+            foreach (Keeper k in this.keepers)
             {
                 Training training = new Training(k, DateTime.Now.ToString("yyyy-MM-dd"));
                 training.VoerTrainingUit("false");
             }
-            foreach (Keeper k in opgesteldeKeepers)
+
+            foreach (Keeper k in this.opgesteldeKeepers)
             {
                 Training training = new Training(k, DateTime.Now.ToString("yyyy-MM-dd"));
                 training.VoerTrainingUit("true");
             }
-            foreach (Veldspeler v in veldspelers)
+
+            foreach (Veldspeler v in this.veldspelers)
             {
                 Training training = new Training(v, DateTime.Now.ToString("yyyy-MM-dd"));
                 training.VoerTrainingUit("false");
             }
-            foreach (Veldspeler v in opgesteldeVeldspelers)
+
+            foreach (Veldspeler v in this.opgesteldeVeldspelers)
             {
                 Training training = new Training(v, DateTime.Now.ToString("yyyy-MM-dd"));
                 training.VoerTrainingUit("true");
             }
-            Reload();
+
+            this.Reload();
         }
 
         #endregion
-
-        // Methodes
 
         #region Methode: Reload
         /// <summary>
         /// In deze methode worden velden, waar nodig, gerefreshed.
         /// </summary>
-        public void Reload()
+        protected void Reload()
         {
-            lbSelectie.Items.Clear();
-            if (keepers.Count > 0)
+            this.lbSelectie.Items.Clear();
+            if (this.keepers.Count > 0)
             {
-                foreach (Klassen.Keeper k in keepers)
+                foreach (Klassen.Keeper k in this.keepers)
                 {
                     k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
-                    lbSelectie.Items.Add(k.ToString());
-                }
-            }
-            if (veldspelers.Count > 0)
-            {
-                foreach (Klassen.Veldspeler v in veldspelers)
-                {
-                    v.Spelercode = Klassen.DBConnect.GetSpelerCode(v);
-                    lbSelectie.Items.Add(v.ToString());
-                }
-            }
-            lbOpstelling.Items.Clear();
-            if (opgesteldeKeepers != null)
-            {
-                foreach (Klassen.Keeper k in opgesteldeKeepers)
-                {
-                    k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
-                    lbOpstelling.Items.Add(k.ToString());
+                    this.lbSelectie.Items.Add(k.ToString());
                 }
             }
 
-            if (opgesteldeVeldspelers != null)
+            if (this.veldspelers.Count > 0)
             {
-                foreach (Klassen.Veldspeler v in opgesteldeVeldspelers)
+                foreach (Klassen.Veldspeler v in this.veldspelers)
                 {
                     v.Spelercode = Klassen.DBConnect.GetSpelerCode(v);
-                    lbOpstelling.Items.Add(v.ToString());
+                    this.lbSelectie.Items.Add(v.ToString());
+                }
+            }
+
+            this.lbOpstelling.Items.Clear();
+            if (this.opgesteldeKeepers != null)
+            {
+                foreach (Klassen.Keeper k in this.opgesteldeKeepers)
+                {
+                    k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
+                    this.lbOpstelling.Items.Add(k.ToString());
+                }
+            }
+
+            if (this.opgesteldeVeldspelers != null)
+            {
+                foreach (Klassen.Veldspeler v in this.opgesteldeVeldspelers)
+                {
+                    v.Spelercode = Klassen.DBConnect.GetSpelerCode(v);
+                    this.lbOpstelling.Items.Add(v.ToString());
                 }
             }
         }
@@ -243,7 +283,7 @@
         /// Deze methode zorgt ervoor dat de statistieken van de geselecteerde keeper in de listbox komen te staan
         /// </summary>
         /// <param name="k"></param>
-        public void KeeperStats(Klassen.Keeper k, ListBox lb)
+        protected void KeeperStats(Klassen.Keeper k, ListBox lb)
         {
             lb.Items.Add("Naam: " + k.Naam);
             lb.Items.Add("Leeftijd: " + k.Leeftijd);
@@ -262,7 +302,7 @@
         /// Deze methode zorgt ervoor dat de statistieken van de geselecteerde veldspeler in de listbox komen te staan
         /// </summary>
         /// <param name="v"></param>
-        public void VeldspelerStats(Klassen.Veldspeler v, ListBox lb)
+        protected void VeldspelerStats(Klassen.Veldspeler v, ListBox lb)
         {
             lb.Items.Add("Naam: " + v.Naam);
             lb.Items.Add("Leeftijd: " + v.Leeftijd);
@@ -282,51 +322,53 @@
         /// <summary>
         /// De listbox waar de statistieken zich in bevinden wordt ge-update.
         /// </summary>
-        public void UpdateStatsListbox()
+        protected void UpdateStatsListbox()
         {
-            lbStatestiek.Items.Clear();
-            if (keepers.Count > 0)
+            this.lbStatestiek.Items.Clear();
+            if (this.keepers.Count > 0)
             {
-                foreach (Klassen.Keeper k in keepers)
+                foreach (Klassen.Keeper k in this.keepers)
                 {
                     k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
-                    if (k.Spelercode == Convert.ToInt32(code))
+                    if (k.Spelercode == Convert.ToInt32(this.code))
                     {
-                        KeeperStats(k, lbStatestiek);
-                    }
-                }
-            }
-            if (veldspelers.Count > 0)
-            {
-                foreach (Klassen.Veldspeler v in veldspelers)
-                {
-                    v.Spelercode = Klassen.DBConnect.GetSpelerCode(v);
-                    if (v.Spelercode == Convert.ToInt32(code))
-                    {
-                        VeldspelerStats(v, lbStatestiek);
-                    }
-                }
-            }
-            if (opgesteldeKeepers != null)
-            {
-                foreach (Klassen.Keeper k in opgesteldeKeepers)
-                {
-                    k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
-                    if (k.Spelercode == Convert.ToInt32(code))
-                    {
-                        KeeperStats(k, lbStatestiek);
+                        this.KeeperStats(k, this.lbStatestiek);
                     }
                 }
             }
 
-            if (opgesteldeVeldspelers != null)
+            if (this.veldspelers.Count > 0)
             {
-                foreach (Klassen.Veldspeler v in opgesteldeVeldspelers)
+                foreach (Klassen.Veldspeler v in this.veldspelers)
                 {
                     v.Spelercode = Klassen.DBConnect.GetSpelerCode(v);
-                    if (v.Spelercode == Convert.ToInt32(code))
+                    if (v.Spelercode == Convert.ToInt32(this.code))
                     {
-                        VeldspelerStats(v, lbStatestiek);
+                        this.VeldspelerStats(v, this.lbStatestiek);
+                    }
+                }
+            }
+
+            if (this.opgesteldeKeepers != null)
+            {
+                foreach (Klassen.Keeper k in this.opgesteldeKeepers)
+                {
+                    k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
+                    if (k.Spelercode == Convert.ToInt32(this.code))
+                    {
+                        this.KeeperStats(k, this.lbStatestiek);
+                    }
+                }
+            }
+
+            if (this.opgesteldeVeldspelers != null)
+            {
+                foreach (Klassen.Veldspeler v in this.opgesteldeVeldspelers)
+                {
+                    v.Spelercode = Klassen.DBConnect.GetSpelerCode(v);
+                    if (v.Spelercode == Convert.ToInt32(this.code))
+                    {
+                        this.VeldspelerStats(v, this.lbStatestiek);
                     }
                 }
             }

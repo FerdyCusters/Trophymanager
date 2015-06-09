@@ -5,16 +5,32 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using Oracle.DataAccess.Client;
-    using Oracle.DataAccess.Types;
     using System.Web;
     using System.Web.UI;
     using System.Web.UI.WebControls;
+    using Oracle.DataAccess.Client;
+    using Oracle.DataAccess.Types;
+    
+    /// <summary>
+    /// De statische DBConnect klasse. Dit is de datalaag. Hier worden alle methodes uitgevoerd om informatie uit de database op te halen.
+    /// </summary>
     public static class DBConnect
     {
         #region Fields
+
+        /// <summary>
+        /// Field: conn
+        /// </summary>
         private static OracleConnection conn;
+
+        /// <summary>
+        /// Field: cmd
+        /// </summary>
         private static OracleCommand cmd = new OracleCommand();
+
+        /// <summary>
+        /// Field: dr
+        /// </summary>
         private static OracleDataReader dr;
         #endregion
 
@@ -62,7 +78,6 @@
         /// <summary>
         /// Checked of de username en het wachtwoord kloppen.
         /// </summary>
-
         public static bool VerifyClub(string username, string password)
         {
             try
@@ -75,6 +90,7 @@
                 {
                     return true;
                 }
+
                 return false;
             }
             catch
@@ -138,6 +154,7 @@
                 {
                     return new Club(dr[0].ToString(), dr[1].ToString(), dr[2].ToString(), dr[3].ToString(), dr[4].ToString());
                 }
+
                 return null;
             }
             catch
@@ -168,6 +185,7 @@
                 {
                     return Convert.ToInt32(dr[0]);
                 }
+
                 return 0;
             }
             catch
@@ -291,6 +309,7 @@
                 {
                     return Convert.ToInt32(dr[0]);
                 }
+
                 return 0;
             }
             catch
@@ -461,6 +480,12 @@
 
         #region CT
 
+        /// <summary>
+        /// Deze methode voegt een record toe aan de entiteit Club_Toernooi
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="c2"></param>
+        /// <returns></returns>
         public static bool AddCT(Club c, Competitie c2)
         {
             try
@@ -480,6 +505,10 @@
             }
         }
 
+        /// <summary>
+        /// Deze methode haalt alle records uit Club_Toernooi
+        /// </summary>
+        /// <returns></returns>
         public static List<Club> GetCTs()
         {
             try
@@ -497,6 +526,7 @@
                         rtrn.Add(new Club(dr[0].ToString(), dr[1].ToString(), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(), Convert.ToInt32(dr[5]), Convert.ToInt32(dr[6]), Convert.ToInt32(dr[7]), Convert.ToInt32(dr[8]), Convert.ToInt32(dr[9])));
                     }
                 }
+
                 return rtrn;
             }
             catch
@@ -510,12 +540,17 @@
             }
         }
 
+        /// <summary>
+        /// Deze methode update een record in Club_Toernooi
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
         public static bool UpdateCT(Club c)
         {
             try
             {
                 conn.Open();
-                cmd.CommandText = "UPDATE Club_Toernooi SET Wedstrijden = '" + c.AantalGespeeld + "', Gewonnen = '" +  c.AantalGewonnen + "', Verloren = '" + c.AantalVerloren + "', Gelijk = '" + c.AantalGelijk + "', BehaaldePunten = '" + c.AantalPunten + "' WHERE Clubcode = '" + c.Clubcode + "'";
+                cmd.CommandText = "UPDATE Club_Toernooi SET Wedstrijden = '" + c.AantalGespeeld + "', Gewonnen = '" + c.AantalGewonnen + "', Verloren = '" + c.AantalVerloren + "', Gelijk = '" + c.AantalGelijk + "', BehaaldePunten = '" + c.AantalPunten + "' WHERE Clubcode = '" + c.Clubcode + "'";
                 cmd.ExecuteNonQuery();
                 return true;
             }
@@ -531,6 +566,12 @@
         #endregion
 
         #region Toernooi
+
+        /// <summary>
+        /// Deze methode zoekt de juiste toernooicode
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
         public static int GetToernooiCode(Competitie c)
         {
             try
@@ -543,6 +584,7 @@
                 {
                     return Convert.ToInt32(dr[0]);
                 }
+
                 return 0;
             }
             catch
@@ -558,6 +600,12 @@
         #endregion
 
         #region Wedstrijd
+
+        /// <summary>
+        /// In deze methode wordt een wedstrijd toegevoegd aan de database.
+        /// </summary>
+        /// <param name="w"></param>
+        /// <returns></returns>
         public static bool AddWedstrijd(Wedstrijd w)
         {
             try
@@ -577,6 +625,10 @@
             }
         }
 
+        /// <summary>
+        /// Haalt alle wedstrijden uit de database
+        /// </summary>
+        /// <returns></returns>
         public static List<Wedstrijd> GetWedstrijden()
         {
             try
