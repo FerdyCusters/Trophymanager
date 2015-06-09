@@ -1,6 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="Wedstrijdpagina.aspx.cs" Inherits="Trophymanager.Pages.Wedstrijdpagina" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    Wedstrijdpagina
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div>

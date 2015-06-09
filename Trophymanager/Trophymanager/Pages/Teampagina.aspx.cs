@@ -76,7 +76,7 @@
             // Er wordt gekeken of er een keeper is aangeklikt. Als dit het geval is wordt deze naar de opstelling verplaats
             // .. indien de opstelling nog geen 11 spelers bevat.
 
-            if (keepers.Count > 0 && opstellingCount < 11)
+            if (keepers.Count > 0 && opstellingCount < 11 && lbSelectie.SelectedItem != null)
             {
                 foreach (Klassen.Keeper k in keepers.ToArray())
                 {
@@ -97,7 +97,7 @@
             // Er wordt gekeken of er een veldspeler is aangeklikt. Als dit het geval is wordt deze naar de opstelling verplaats
             // .. indien de opstelling nog geen 11 spelers bevat.
 
-            if (veldspelers.Count > 0 && opstellingCount < 11)
+            if (veldspelers.Count > 0 && opstellingCount < 11 && lbSelectie.SelectedItem != null)
             {
                 foreach (Klassen.Veldspeler v in veldspelers.ToArray())
                 {
@@ -123,7 +123,7 @@
             // Er wordt gekeken of er een keeper is aangeklikt. Als dit het geval is wordt deze naar de selectie verplaats
             // .. indien de opstelling nog geen 11 spelers bevat.
 
-            if (opgesteldeKeepers.Count > 0)
+            if (opgesteldeKeepers.Count > 0 && lbOpstelling.SelectedItem != null)
             {
                 foreach (Klassen.Keeper k in opgesteldeKeepers.ToArray())
                 {
@@ -140,7 +140,7 @@
             // Er wordt gekeken of er een veldspeler is aangeklikt. Als dit het geval is wordt deze naar de selectie verplaats
             // .. indien de opstelling nog geen 11 spelers bevat.
 
-            if (opgesteldeVeldspelers.Count > 0)
+            if (opgesteldeVeldspelers.Count > 0 && lbOpstelling.SelectedItem != null)
             {
                 foreach (Klassen.Veldspeler v in opgesteldeVeldspelers.ToArray())
                 {
@@ -169,67 +169,23 @@
         {
             foreach(Keeper k in keepers)
             {
-                Random random = new Random();
-                int uitkomst = random.Next(1, 7);
-                if(k.Club.Clubnaam == Inlogscherm.Gebruiker.Clubnaam)
-                {
-                    // Dit kan elke waarde zijn.
-                    if(uitkomst == uitkomst)
-                    {
-                        k.Passen = k.Passen + 1;
-                        k.Snelheid = k.Snelheid + 1;
-                        k.Kracht = k.Kracht + 1;
-                        DBConnect.UpdateSpeler(k, "false");
-                    }
-                }
+                Training training = new Training(k, DateTime.Now.ToString("yyyy-MM-dd"));
+                training.VoerTrainingUit("false");
             }
             foreach (Keeper k in opgesteldeKeepers)
             {
-                Random random = new Random();
-                int uitkomst = random.Next(1, 7);
-                if (k.Club.Clubnaam == Inlogscherm.Gebruiker.Clubnaam)
-                {
-                    // Dit kan elke waarde zijn.
-                    if (uitkomst == uitkomst)
-                    {
-                        k.Passen = k.Passen + 1;
-                        k.Snelheid = k.Snelheid + 1;
-                        k.Kracht = k.Kracht + 1;
-                        DBConnect.UpdateSpeler(k, "true");
-                    }
-                }
+                Training training = new Training(k, DateTime.Now.ToString("yyyy-MM-dd"));
+                training.VoerTrainingUit("true");
             }
             foreach (Veldspeler v in veldspelers)
             {
-                Random random = new Random();
-                int uitkomst = random.Next(1, 7);
-                if (v.Club.Clubnaam == Inlogscherm.Gebruiker.Clubnaam)
-                {
-                    // Dit kan elke waarde zijn.
-                    if (uitkomst == uitkomst)
-                    {
-                        v.Passen = v.Passen + 1;
-                        v.Snelheid = v.Snelheid + 1;
-                        v.Kracht = v.Kracht + 1;
-                        DBConnect.UpdateSpeler(v, "false");
-                    }
-                }
+                Training training = new Training(v, DateTime.Now.ToString("yyyy-MM-dd"));
+                training.VoerTrainingUit("false");
             }
             foreach (Veldspeler v in opgesteldeVeldspelers)
             {
-                Random random = new Random();
-                int uitkomst = random.Next(1, 7);
-                if (v.Club.Clubnaam == Inlogscherm.Gebruiker.Clubnaam)
-                {
-                    // Dit kan elke waarde zijn.
-                    if (uitkomst == uitkomst)
-                    {
-                        v.Passen = v.Passen + 1;
-                        v.Snelheid = v.Snelheid + 1;
-                        v.Kracht = v.Kracht + 1;
-                        DBConnect.UpdateSpeler(v, "true");
-                    }
-                }
+                Training training = new Training(v, DateTime.Now.ToString("yyyy-MM-dd"));
+                training.VoerTrainingUit("true");
             }
             Reload();
         }

@@ -71,11 +71,10 @@
     <Content Include="Pages\Inlogscherm.aspx" />
     <Content Include="Pages\Teampagina.aspx" />
     <Content Include="Pages\Wedstrijdpagina.aspx" />
-    <Content Include="Styles\Main.css" />
+    <Content Include="Site.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Klassen\Betaling.cs" />
     <Compile Include="Klassen\Club.cs" />
     <Compile Include="Klassen\Competitie.cs" />
     <Compile Include="Klassen\DBConnect.cs" />
