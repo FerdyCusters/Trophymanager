@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Trophymanager.Klassen;
 
 namespace Trophymanager.Pages
 {
@@ -19,24 +20,21 @@ namespace Trophymanager.Pages
         /// </summary>
         protected void Page_Load(object sender, EventArgs e)
         {
-            clubs = Klassen.DBConnect.GetCTs();
-            clubs.Sort();
-
-            int counter = 1;
-
-            foreach(Klassen.Club c in clubs.ToArray())
+            if(Convert.ToInt32(Session["Counter"]) < 1)
             {
-                lbStand.Items.Add(counter + ".   " + c.ToString());
-                counter++;
+                clubs = Klassen.DBConnect.GetCTs();
+                clubs.Sort();
+                int counter = 1;
+                foreach (Klassen.Club c in clubs.ToArray())
+                {
+                    lbStand.Items.Add(counter + ".   " + c.ToString());
+                    counter++;
+                }
             }
         }
         #endregion
 
         #region Eventhandlers
-        protected void btnGaTerug_Click(object sender, EventArgs e)
-        {
-            Server.Transfer("Homepage.aspx", true);
-        }
         #endregion
     }
 }

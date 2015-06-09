@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Oracle.DataAccess.Client;
-using Oracle.DataAccess.Types;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
-namespace Trophymanager.Klassen
+﻿namespace Trophymanager.Klassen
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Oracle.DataAccess.Client;
+    using Oracle.DataAccess.Types;
+    using System.Web;
+    using System.Web.UI;
+    using System.Web.UI.WebControls;
     public static class DBConnect
     {
         #region Fields
@@ -313,7 +312,7 @@ namespace Trophymanager.Klassen
             try
             {
                 conn.Open();
-                cmd.CommandText = "UPDATE SPELER SET InOpstelling = '" + inOpstelling + "' WHERE Spelercode = '" + s.Spelercode + "'";
+                cmd.CommandText = "UPDATE SPELER SET InOpstelling = '" + inOpstelling + "', Passen = '" + s.Passen + "', Kracht = '" + s.Kracht + "', Snelheid = '" + s.Snelheid + "' WHERE Spelercode = '" + s.Spelercode + "'";
                 cmd.ExecuteNonQuery();
                 return true;
             }
@@ -511,6 +510,24 @@ namespace Trophymanager.Klassen
             }
         }
 
+        public static bool UpdateCT(Club c)
+        {
+            try
+            {
+                conn.Open();
+                cmd.CommandText = "UPDATE Club_Toernooi SET Wedstrijden = '" + c.AantalGespeeld + "', Gewonnen = '" +  c.AantalGewonnen + "', Verloren = '" + c.AantalVerloren + "', Gelijk = '" + c.AantalGelijk + "', BehaaldePunten = '" + c.AantalPunten + "' WHERE Clubcode = '" + c.Clubcode + "'";
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
         #endregion
 
         #region Toernooi
@@ -538,6 +555,60 @@ namespace Trophymanager.Klassen
                 conn.Close();
             }
         }
+        #endregion
+
+        #region Wedstrijd
+        public static bool AddWedstrijd(Wedstrijd w)
+        {
+            try
+            {
+                conn.Open();
+                cmd.CommandText = "INSERT INTO Wedstrijd (Clubcode, Tegenstandercode, Speeldatum, Tijdstip, Uitslag) VALUES ('" + w.ThuisTeam.Clubcode + "', '" + w.UitTeam.Clubcode + "', '" + w.Speeldatum + "', '19:45', '" + w.Uitslag + "')";
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public static List<Wedstrijd> GetWedstrijden()
+        {
+            try
+            {
+                List<Wedstrijd> rtrn = null;
+
+                conn.Open();
+                cmd.CommandText = "SELECT Clubcode, Tegenstandercode, Speeldatum, Uitslag FROM Wedstrijd";
+                dr = cmd.ExecuteReader();
+
+                if (dr.HasRows)
+                {
+                    rtrn = new List<Wedstrijd>();
+                    while (dr.Read())
+                    {
+                        rtrn.Add(new Wedstrijd(Convert.ToInt32(dr[0]), Convert.ToInt32(dr[1]), dr[2].ToString(), dr[3].ToString()));
+                    }
+                }
+
+                return rtrn;
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                dr.Close();
+                conn.Close();
+            }
+        }
+
         #endregion
     }
 }

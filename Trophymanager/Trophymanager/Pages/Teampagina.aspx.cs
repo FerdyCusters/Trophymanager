@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
-namespace Trophymanager.Pages
+﻿namespace Trophymanager.Pages
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.UI;
+    using System.Web.UI.WebControls;
+    using System.Web.Configuration;
+    using Trophymanager.Klassen;
     public partial class Teampagina : System.Web.UI.Page
     {
         #region Fields
@@ -35,12 +38,11 @@ namespace Trophymanager.Pages
             // Ook worden de stats in lbStatestiek aangepast naar de stats van de geselecteerde speler.
             if (lbSelectie.SelectedItem != null && lbOpstelling.SelectedItem != null)
             {
-                Reload("Selectie", "Opstelling");
+                Reload();
                 lbStatestiek.Items.Clear();
             }
             if (lbSelectie.SelectedItem != null && lbOpstelling.SelectedItem == null)
             {
-                Reload("", "Opstelling");
                 index = lbSelectie.SelectedItem.Text.IndexOf(" ");
                 code = lbSelectie.SelectedItem.Text.Substring(0, index);
                 opstellingCount = lbOpstelling.Items.Count;
@@ -49,7 +51,6 @@ namespace Trophymanager.Pages
 
             if (lbOpstelling.SelectedItem != null && lbSelectie.SelectedItem == null)
             {
-                Reload("Selectie", "");
                 index = lbOpstelling.SelectedItem.Text.IndexOf(" ");
                 code = lbOpstelling.SelectedItem.Text.Substring(0, index);
                 UpdateStatsListbox();
@@ -58,24 +59,13 @@ namespace Trophymanager.Pages
             // Deze methode wordt alleen maar de eerste keer uitgevoerd als de pagina in page_load komt.
             if (Convert.ToInt32(Session["Counter"]) < 1)
             {
-                Reload("Selectie", "Opstelling");
+                Reload();
                 Session["Counter"] = 1;
             }
         }
         #endregion
 
         // Event handlers
-
-        #region btnGaTerug
-        /// <summary>
-        /// Er wordt terug gegaan naar de Homepage.
-        /// </summary>
-        protected void btnGaTerug_Click(object sender, EventArgs e)
-        {
-            Session["Counter"] = 0;
-            Server.Transfer("Homepage.aspx", true);
-        }
-        #endregion
 
         #region btnRechts
         /// <summary>
@@ -86,41 +76,41 @@ namespace Trophymanager.Pages
             // Er wordt gekeken of er een keeper is aangeklikt. Als dit het geval is wordt deze naar de opstelling verplaats
             // .. indien de opstelling nog geen 11 spelers bevat.
 
-                if (keepers.Count > 0 && opstellingCount < 11)
+            if (keepers.Count > 0 && opstellingCount < 11)
+            {
+                foreach (Klassen.Keeper k in keepers.ToArray())
                 {
-                    foreach (Klassen.Keeper k in keepers.ToArray())
+                    k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
+                    if (k.Spelercode == Convert.ToInt32(code))
                     {
-                        k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
+                        keepers.Remove(k);
+                        opgesteldeKeepers.Add(k);
+                        Klassen.DBConnect.UpdateSpeler(k, "true");
                         if (k.Spelercode == Convert.ToInt32(code))
                         {
-                            keepers.Remove(k);
-                            opgesteldeKeepers.Add(k);
-                            Klassen.DBConnect.UpdateSpeler(k, "true");
-                            if (k.Spelercode == Convert.ToInt32(code))
-                            {
-                                KeeperStats(k, lbSelectie);
-                            }
+                            KeeperStats(k, lbSelectie);
                         }
                     }
                 }
+            }
 
-                // Er wordt gekeken of er een veldspeler is aangeklikt. Als dit het geval is wordt deze naar de opstelling verplaats
-                // .. indien de opstelling nog geen 11 spelers bevat.
+            // Er wordt gekeken of er een veldspeler is aangeklikt. Als dit het geval is wordt deze naar de opstelling verplaats
+            // .. indien de opstelling nog geen 11 spelers bevat.
 
-                if (veldspelers.Count > 0 && opstellingCount < 11)
+            if (veldspelers.Count > 0 && opstellingCount < 11)
+            {
+                foreach (Klassen.Veldspeler v in veldspelers.ToArray())
                 {
-                    foreach (Klassen.Veldspeler v in veldspelers.ToArray())
+                    v.Spelercode = Klassen.DBConnect.GetSpelerCode(v);
+                    if (v.Spelercode == Convert.ToInt32(code))
                     {
-                        v.Spelercode = Klassen.DBConnect.GetSpelerCode(v);
-                        if (v.Spelercode == Convert.ToInt32(code))
-                        {
-                            veldspelers.Remove(v);
-                            opgesteldeVeldspelers.Add(v);
-                            Klassen.DBConnect.UpdateSpeler(v, "true");
-                        }
+                        veldspelers.Remove(v);
+                        opgesteldeVeldspelers.Add(v);
+                        Klassen.DBConnect.UpdateSpeler(v, "true");
                     }
                 }
-                Reload("Selectie", "Opstelling");
+            }
+            Reload();
         }
         #endregion
 
@@ -163,60 +153,132 @@ namespace Trophymanager.Pages
                     }
                 }
             }
-            Reload("Selectie", "Opstelling");
+            Reload();
         }
+        #endregion
+
+        #region btnTrain
+
+        /// <summary>
+        /// In deze event handler is er een mogelijkheid dat spelers vaardigheden verbeteren. 
+        /// Hoe groot de kans is dat spelers beter worden kun je hier bepalen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnTrain_Click(object sender, EventArgs e)
+        {
+            foreach(Keeper k in keepers)
+            {
+                Random random = new Random();
+                int uitkomst = random.Next(1, 7);
+                if(k.Club.Clubnaam == Inlogscherm.Gebruiker.Clubnaam)
+                {
+                    // Dit kan elke waarde zijn.
+                    if(uitkomst == uitkomst)
+                    {
+                        k.Passen = k.Passen + 1;
+                        k.Snelheid = k.Snelheid + 1;
+                        k.Kracht = k.Kracht + 1;
+                        DBConnect.UpdateSpeler(k, "false");
+                    }
+                }
+            }
+            foreach (Keeper k in opgesteldeKeepers)
+            {
+                Random random = new Random();
+                int uitkomst = random.Next(1, 7);
+                if (k.Club.Clubnaam == Inlogscherm.Gebruiker.Clubnaam)
+                {
+                    // Dit kan elke waarde zijn.
+                    if (uitkomst == uitkomst)
+                    {
+                        k.Passen = k.Passen + 1;
+                        k.Snelheid = k.Snelheid + 1;
+                        k.Kracht = k.Kracht + 1;
+                        DBConnect.UpdateSpeler(k, "true");
+                    }
+                }
+            }
+            foreach (Veldspeler v in veldspelers)
+            {
+                Random random = new Random();
+                int uitkomst = random.Next(1, 7);
+                if (v.Club.Clubnaam == Inlogscherm.Gebruiker.Clubnaam)
+                {
+                    // Dit kan elke waarde zijn.
+                    if (uitkomst == uitkomst)
+                    {
+                        v.Passen = v.Passen + 1;
+                        v.Snelheid = v.Snelheid + 1;
+                        v.Kracht = v.Kracht + 1;
+                        DBConnect.UpdateSpeler(v, "false");
+                    }
+                }
+            }
+            foreach (Veldspeler v in opgesteldeVeldspelers)
+            {
+                Random random = new Random();
+                int uitkomst = random.Next(1, 7);
+                if (v.Club.Clubnaam == Inlogscherm.Gebruiker.Clubnaam)
+                {
+                    // Dit kan elke waarde zijn.
+                    if (uitkomst == uitkomst)
+                    {
+                        v.Passen = v.Passen + 1;
+                        v.Snelheid = v.Snelheid + 1;
+                        v.Kracht = v.Kracht + 1;
+                        DBConnect.UpdateSpeler(v, "true");
+                    }
+                }
+            }
+            Reload();
+        }
+
         #endregion
 
         // Methodes
 
         #region Methode: Reload
         /// <summary>
-        /// In deze methode worden velden, waar aangegeven, gerefreshed.
-        /// De parameters bepalen welke listbox moet worden gerefreshed.
+        /// In deze methode worden velden, waar nodig, gerefreshed.
         /// </summary>
-        public void Reload(string a, string b)
+        public void Reload()
         {
-            if(a == "Selectie")
+            lbSelectie.Items.Clear();
+            if (keepers.Count > 0)
             {
-                lbSelectie.Items.Clear();
-                if (keepers.Count > 0)
+                foreach (Klassen.Keeper k in keepers)
                 {
-                    foreach (Klassen.Keeper k in keepers)
-                    {
-                        k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
-                        lbSelectie.Items.Add(k.ToString());
-                    }
-                }
-                if (veldspelers.Count > 0)
-                {
-                    foreach (Klassen.Veldspeler v in veldspelers)
-                    {
-                        v.Spelercode = Klassen.DBConnect.GetSpelerCode(v);
-                        lbSelectie.Items.Add(v.ToString());
-                    }
+                    k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
+                    lbSelectie.Items.Add(k.ToString());
                 }
             }
-            if(b == "Opstelling")
+            if (veldspelers.Count > 0)
             {
-                lbOpstelling.Items.Clear();
-                if (opgesteldeKeepers != null)
+                foreach (Klassen.Veldspeler v in veldspelers)
                 {
-                    foreach (Klassen.Keeper k in opgesteldeKeepers)
-                    {
-                        k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
-                        lbOpstelling.Items.Add(k.ToString());
-                    }
+                    v.Spelercode = Klassen.DBConnect.GetSpelerCode(v);
+                    lbSelectie.Items.Add(v.ToString());
                 }
-
-                if (opgesteldeVeldspelers != null)
+            }
+            lbOpstelling.Items.Clear();
+            if (opgesteldeKeepers != null)
+            {
+                foreach (Klassen.Keeper k in opgesteldeKeepers)
                 {
-                    foreach (Klassen.Veldspeler v in opgesteldeVeldspelers)
-                    {
-                        v.Spelercode = Klassen.DBConnect.GetSpelerCode(v);
-                        lbOpstelling.Items.Add(v.ToString());
-                    }
-                }                 
-            }       
+                    k.Spelercode = Klassen.DBConnect.GetSpelerCode(k);
+                    lbOpstelling.Items.Add(k.ToString());
+                }
+            }
+
+            if (opgesteldeVeldspelers != null)
+            {
+                foreach (Klassen.Veldspeler v in opgesteldeVeldspelers)
+                {
+                    v.Spelercode = Klassen.DBConnect.GetSpelerCode(v);
+                    lbOpstelling.Items.Add(v.ToString());
+                }
+            }
         }
         #endregion
 

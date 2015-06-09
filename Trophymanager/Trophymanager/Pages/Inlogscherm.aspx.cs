@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
-namespace Trophymanager.Pages
+﻿namespace Trophymanager.Pages
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.UI;
+    using System.Web.UI.WebControls;
     public partial class Inlogscherm : System.Web.UI.Page
     {
         #region Fields
@@ -32,8 +31,9 @@ namespace Trophymanager.Pages
             if (club.CheckLogin(tbInlognaam.Text, tbWachtwoord.Text) == true)
             {
                 Gebruiker = Klassen.DBConnect.GetClub(tbInlognaam.Text);
+                Gebruiker.Competitie = Klassen.Club.Eredivisie;
                 Gebruiker.Clubcode = Klassen.DBConnect.GetClubCode(Gebruiker);
-                Server.Transfer("Homepage.aspx", true);
+                Server.Transfer("Teampagina.aspx", true);
             }
             else
             {
