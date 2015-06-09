@@ -36,7 +36,7 @@
         {
             if (this.path != "/Pages/Teampagina.aspx")
             {
-                Master.Session["Counter"] = 0;
+                this.Session["Counter"] = 0;
                 Server.Transfer("Teampagina.aspx", true);
             }
         }
@@ -50,7 +50,7 @@
         {
             if (this.path != "/Pages/Competitiepagina.aspx")
             {
-                Master.Session["Counter"] = 0;
+                this.Session["Counter"] = 0;
                 Server.Transfer("Competitiepagina.aspx", true);
             }
         }
@@ -64,7 +64,7 @@
         {
             if (this.path != "/Pages/Wedstrijdpagina.aspx")
             {
-                Master.Session["Counter"] = 0;
+                this.Session["Counter"] = 0;
                 Server.Transfer("Wedstrijdpagina.aspx", true);
             }
         }
@@ -76,7 +76,7 @@
         /// <param name="e"></param>
         protected void BtnLogUit_Click(object sender, EventArgs e)
         {
-            Master.Session["Counter"] = 0;
+            this.Session["Counter"] = 0;
             Server.Transfer("Inlogscherm.aspx", true);
         }
     }
