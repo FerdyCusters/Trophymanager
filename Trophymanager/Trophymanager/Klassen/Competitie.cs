@@ -59,12 +59,17 @@
         /// Club wordt toegevoegd aan de competitie (DB)
         /// </summary>
         /// <param name="club"></param>
-        public void VoegClubToe(Club club)
+        public bool VoegClubToe(Club club)
         {
             club.Clubcode = DBConnect.GetClubCode(club);
             this.Toernooicode = DBConnect.GetToernooiCode(this);
             this.Clubs.Add(club);
-            DBConnect.AddCT(club, this);
+            if (DBConnect.AddCT(club, this) == true)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
