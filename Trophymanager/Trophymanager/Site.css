@@ -1,0 +1,206 @@
+﻿html {
+    background-color:white;
+}
+
+h1 {
+    margin-left:500px;
+    font-family:Arial;
+    font-size:50px;
+    color: #ffffff;
+}
+
+h2 {
+    font-family:Arial;
+    font-size:50px;
+    color: black;
+}
+
+/* Master Page */
+
+#Header {
+    height: 80px;
+	background: #60bef9;
+}
+
+#teamButton {
+    float: left;
+    margin-top:20px;
+    margin-left:200px;
+}
+
+#competitieButton {
+    float: left;
+    margin-top:20px;
+    margin-left:20px;
+}
+
+#wedstrijdButton {
+    float: left;
+    margin-top:20px;
+    margin-left:20px;
+}
+
+#loguitButton {
+    float: left;
+    margin-top:20px;
+    margin-left:20px;
+}
+
+/* Inlogscherm */
+
+#i_Inloggen_Balkje {
+	height: 80px;
+	background: #60bef9;
+}
+
+#textbox1 {
+    float:left;
+    margin-left:500px;
+    margin-right:500px;
+    margin-top:15px;
+    margin-bottom:5px;
+}
+#textbox2 {
+    float:left;
+    margin-left:500px;
+    margin-right:500px;
+    margin-top:15px;
+    margin-bottom:5px;
+}
+#button1 {
+    float:left;
+    margin-left:500px;
+    margin-right:500px;
+    margin-top:15px;
+    margin-bottom:5px;
+}
+
+#textbox3 {
+    float:left;
+    margin-left:500px;
+    margin-right:500px;
+    margin-top:15px;
+    margin-bottom:5px;
+}
+
+#textbox4 {
+    float: left;
+    margin-left: 500px;
+    margin-right: 500px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+#textbox5 {
+    float:left;
+    margin-left:500px;
+    margin-right:500px;
+    margin-top:15px;
+    margin-bottom:5px;
+}
+
+#textbox6 {
+    float: left;
+    margin-left: 500px;
+    margin-right: 500px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+#textbox7 {
+    float:left;
+    margin-left:500px;
+    margin-right:500px;
+    margin-top:15px;
+    margin-bottom:5px;
+}
+
+#textbox8 {
+    float: left;
+    margin-left: 500px;
+    margin-right: 500px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+#button2 {
+    float:left;
+    margin-left:500px;
+    margin-right:500px;
+    margin-top:15px;
+    margin-bottom:5px;
+}
+
+#i_Registreren_Balkje {
+	height: 80px;
+	background: #60bef9;
+    margin-top:150px;
+}
+
+#i_Inloggen {
+    height:80px;
+    float:left;
+}
+
+#i_Registreren {
+    height:80px;
+    float: left;
+}
+
+.footer{
+    font-size:10px;
+    position: absolute; 
+    right: 10px; 
+    bottom: 10px;
+}
+
+.content{
+    background-color:grey;
+    position:absolute;
+    left:251px;
+    top:0px;
+    margin-left:10px;
+    margin-right:10px;
+}
+
+/* Teampagina */
+
+#t_Selectie {
+    float:left;
+    margin-left:200px;
+}
+
+#t_Opstelling {
+    float:left;
+    margin-left:400px;
+}
+
+#lb_Selectie {
+    float:left;
+    margin-left:150px;
+}
+
+#btn_Rechts {
+    float:left;
+    margin-left:75px;
+}
+
+#btn_Links {
+    float:left;
+}
+
+#lb_Opstelling {
+    float:left;
+    margin-left:75px;
+}
+
+#lb_Statestiek {
+    float:left;
+    margin-left:150px;
+}
+
+#btn_Train {
+    float:left;
+    margin-top:100px;
+    margin-left:50px;
+}
